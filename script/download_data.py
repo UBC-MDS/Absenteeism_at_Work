@@ -2,7 +2,7 @@
 # date: 2020-11-20
 
 """The sript downloads the zip file from the web to a local filepath and unzip the file. Save it in a local path.
-Usage: downoad_data_failed.py --url=<url> --out_path=<out_path>
+Usage: downoad_data.py --url=<url> --out_path=<out_path>
 
 Options:
 --url=<url>              URL from where to download the zip file
