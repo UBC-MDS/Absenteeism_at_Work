@@ -1,3 +1,6 @@
+Exploratory data analysis (EDA) of the Absenteeism at work Data Set
+===================================================================
+
 > The objective of this exploratory data analysis is to comprehend the
 > relationship between the features and the absenteeism time in hours to
 > obtain an initial general idea of which features are the most
@@ -142,36 +145,36 @@ Frequency Distributions for all features
 Reasons of Absence Table
 ------------------------
 
-    ##                                                     Number of occurrences  Frequency
-    ## Reason for absence                                                                  
-    ## Medical consultation                                                  111   0.214286
-    ## Dental consultation                                                    80   0.154440
-    ## Physiotherapy                                                          43   0.083012
-    ## Diseases of the musculoskeletal system and conn...                     41   0.079151
-    ## Injury, poisoning and certain other consequence...                     28   0.054054
-    ## Patient follow-up                                                      27   0.052124
-    ## Unknown                                                                27   0.052124
-    ## Unjustified absence                                                    24   0.046332
-    ## Laboratory examination                                                 20   0.038610
-    ## Symptoms, signs and abnormal clinical and labor...                     19   0.036680
-    ## Diseases of the digestive system                                       17   0.032819
-    ## Diseases of the respiratory system                                     16   0.030888
-    ## Diseases of the eye and adnexa                                         11   0.021236
-    ## Diseases of the genitourinary system                                   11   0.021236
-    ## Certain infectious and parasitic diseases                              10   0.019305
-    ## Diseases of the nervous system                                          7   0.013514
-    ## Diseases of the skin and subcutaneous tissue                            5   0.009653
-    ## Certain conditions originating in the perinatal...                      3   0.005792
-    ## Diseases of the ear and mastoid process                                 3   0.005792
-    ## Factors influencing health status and contact w...                      3   0.005792
-    ## Pregnancy, childbirth and the puerperium                                2   0.003861
-    ## Mental and behavioural disorders                                        2   0.003861
-    ## Blood donation                                                          2   0.003861
-    ## Diseases of the circulatory system                                      2   0.003861
-    ## Endocrine, nutritional and metabolic diseases                           1   0.001931
-    ## Diseases of the blood and blood-forming organs ...                      1   0.001931
-    ## Neoplasms                                                               1   0.001931
-    ## Congenital malformations, deformations and chro...                      1   0.001931
+    ##                                                                                                      Number of occurrences  Frequency
+    ## Reason for absence                                                                                                                   
+    ## Medical consultation                                                                                                   111   0.214286
+    ## Dental consultation                                                                                                     80   0.154440
+    ## Physiotherapy                                                                                                           43   0.083012
+    ## Diseases of the musculoskeletal system and connective tissue                                                            41   0.079151
+    ## Injury, poisoning and certain other consequences of external causes                                                     28   0.054054
+    ## Patient follow-up                                                                                                       27   0.052124
+    ## Unknown                                                                                                                 27   0.052124
+    ## Unjustified absence                                                                                                     24   0.046332
+    ## Laboratory examination                                                                                                  20   0.038610
+    ## Symptoms, signs and abnormal clinical and laboratory findings, not elsewhere classified                                 19   0.036680
+    ## Diseases of the digestive system                                                                                        17   0.032819
+    ## Diseases of the respiratory system                                                                                      16   0.030888
+    ## Diseases of the eye and adnexa                                                                                          11   0.021236
+    ## Diseases of the genitourinary system                                                                                    11   0.021236
+    ## Certain infectious and parasitic diseases                                                                               10   0.019305
+    ## Diseases of the nervous system                                                                                           7   0.013514
+    ## Diseases of the skin and subcutaneous tissue                                                                             5   0.009653
+    ## Certain conditions originating in the perinatal period                                                                   3   0.005792
+    ## Diseases of the ear and mastoid process                                                                                  3   0.005792
+    ## Factors influencing health status and contact with health services                                                       3   0.005792
+    ## Pregnancy, childbirth and the puerperium                                                                                 2   0.003861
+    ## Mental and behavioural disorders                                                                                         2   0.003861
+    ## Blood donation                                                                                                           2   0.003861
+    ## Diseases of the circulatory system                                                                                       2   0.003861
+    ## Endocrine, nutritional and metabolic diseases                                                                            1   0.001931
+    ## Diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism                      1   0.001931
+    ## Neoplasms                                                                                                                1   0.001931
+    ## Congenital malformations, deformations and chromosomal abnormalities                                                     1   0.001931
 
 ![freq\_table](figure/frequency_graph.png)
 
