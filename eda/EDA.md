@@ -275,13 +275,14 @@ Ordinal data analysis
 Insights & Conclusions
 ======================
 
-The most important insights provided by this study are: &gt; The
-**correlation** reveals that the `reason of absence`, that the absence
-factors, the `business day of the week`, the `height`, whether the
-employee had a `disciplinary failure` that month, whether the worker
-considers him/herself a `social drinker`, the
-`distance from residence to work` and the number of `children` are the
-**most influential features over absenteeism time in hours**.
+The most important insights provided by this study are:
+
+> The **correlation** reveals that the `reason of absence`, that the
+> absence factors, the `business day of the week`, the `height`, whether
+> the employee had a `disciplinary failure` that month, whether the
+> worker considers him/herself a `social drinker`, the
+> `distance from residence to work` and the number of `children` are the
+> **most influential features over absenteeism time in hours**.
 
 > The `target` contains a **considerable amount of outliers**. Although
 > the average amount of absence hours per subject is 6.87 hours, there
