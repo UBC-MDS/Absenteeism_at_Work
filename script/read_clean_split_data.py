@@ -1,5 +1,5 @@
 # author: Yiki Su
-# date: 2020-11-20
+# date: 2020-11-24
 
 """The sript reads the csv file from the data folder and performs data wrangling.
 After data wrangling, separate the data into the training and test portions using 
