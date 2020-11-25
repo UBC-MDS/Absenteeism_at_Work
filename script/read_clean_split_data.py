@@ -33,7 +33,9 @@ def main(input, out_dir):
   data['Education'] = data['Education'].astype('category')
   data['Month of absence'] = data['Month of absence'].astype('category')
   data['Reason for absence'] = data['Reason for absence'].astype('category')
-  
+  unuseful_idx = (data[data["Month of absence"] == 0]).index.tolist()
+  data = data.drop(unuseful_idx)
+
   
   # split the data
   train_df, test_df = train_test_split(data, test_size=0.3, random_state=123)
