@@ -2,6 +2,7 @@
 title: "Predicting absenteeism hours at work from different features"
 author: MDS DSCI 522 Group 21
 date: "27/11/2020"
+always_allow_html: true
 output: 
   html_document:
     toc: true
