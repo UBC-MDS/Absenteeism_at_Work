@@ -1,6 +1,6 @@
 ---
 title: "Predicting absenteeism hours at work from different features"
-author: "Rachel Xu"
+author: MDS DSCI 522 Group 21
 date: "27/11/2020"
 output: 
   html_document:
