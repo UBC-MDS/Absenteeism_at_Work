@@ -12,6 +12,25 @@ MDS DSCI 522 Group 21
 > working and health ambits, how many hours of absence would be expected
 > from that employee in a given month?
 
+In this project we built three machine learning models, which are random
+forest regressor, support vector machine regressor with linear kernel
+and ridge regressor, to make predictions on absenteeism time in hours
+from “Absenteeism at work” dataset. Our machine learning models did not
+perform a very good job even after we applied recursive feature
+elimination. From feature selection, we found that the most impactful
+feature is “Reason for absence”. The best mean cross-validation \(R^2\)
+score we got is 0.09 from `ridge regressor`, and the other 2 validation
+scores are 0.05 from `support vector machine regressor with linear
+kernel` and -0.15 from `random forest regressor`. Thus, we used `ridge
+regression` model on the test data and our test score is 0.085. Our
+unsatisfied prediction results may affect the decision and judgement
+that an employer make while dealing with absenteeism among employees.
+Thus, We suggest that more sophisticated approaches on feature selection
+and machine learning models should be applied on this data to improve
+the prediction results; alternatively, a more representative and
+independent dataset is needed to perform the prediction upon, in order
+to gain the correct direction on absenteeism issues.
+
 # Introduction
 
 Absenteeism in the workplace is the habitual absence behavior from work
@@ -92,7 +111,7 @@ features.
 
 <div class="figure">
 
-<img src="../script/results/correlation_matrix.png" alt="Figure 1. Correlation matrix between all features and the target" width="100%" />
+<img src="../results/correlation_matrix.png" alt="Figure 1. Correlation matrix between all features and the target" width="100%" />
 
 <p class="caption">
 
@@ -107,7 +126,7 @@ target and we detect many outliers in the target.
 
 <div class="figure">
 
-<img src="../script/results/distribution_plot.png" alt="Figure 2. Frequency distributions for all features and the target" width="100%" />
+<img src="../results/distribution_plot.png" alt="Figure 2. Frequency distributions for all features and the target" width="100%" />
 
 <p class="caption">
 
@@ -125,7 +144,7 @@ the reasons for absence in 191 out of the 508 observations taken.
 
 <div class="figure">
 
-<img src="../script/results/frequency_plot.png" alt="Figure 3. Reasons of Absence feature distribution" width="100%" />
+<img src="../results/frequency_plot.png" alt="Figure 3. Reasons of Absence feature distribution" width="100%" />
 
 <p class="caption">
 
@@ -176,10 +195,10 @@ most important features and train our models accordingly again.
 
 | index        | Linear SVM |     Ridge | Random Forest |
 | :----------- | ---------: | --------: | ------------: |
-| fit\_time    |  0.2535638 | 0.1853960 |     2.7311072 |
-| score\_time  |  0.0556055 | 0.0764016 |     0.1198312 |
-| test\_score  |  0.0631696 | 0.0569267 |   \-0.2162912 |
-| train\_score |  0.0704791 | 0.2766440 |     0.8426543 |
+| fit\_time    |  0.2268667 | 0.2044175 |     2.7218767 |
+| score\_time  |  0.0674204 | 0.0959224 |     0.0918088 |
+| test\_score  |  0.0631696 | 0.0569267 |   \-0.1527934 |
+| train\_score |  0.0704791 | 0.2766440 |     0.8357503 |
 
 Table 1. Non feature selection mean cross validation R-square scores of
 all three machine learning models
@@ -198,10 +217,10 @@ machine with linear kernel` which produced a similar \(R^2\) score of
 
 | index        | Linear SVM |     Ridge | Random Forest |
 | :----------- | ---------: | --------: | ------------: |
-| fit\_time    |  7.4991183 | 8.0024274 |     8.9400370 |
-| score\_time  |  0.0341920 | 0.0378488 |     0.0829998 |
-| test\_score  |  0.0475836 | 0.0937344 |   \-0.1959250 |
-| train\_score |  0.0505426 | 0.1724282 |     0.2754509 |
+| fit\_time    |  7.5928011 | 8.2742509 |     8.0435517 |
+| score\_time  |  0.0466359 | 0.0368004 |     0.0778455 |
+| test\_score  |  0.0475836 | 0.0937344 |   \-0.1460047 |
+| train\_score |  0.0505426 | 0.1724282 |     0.2736223 |
 
 Table 2. Feature selection mean cross validation R-square scores of all
 three machine learning models
