@@ -73,7 +73,7 @@ Rscript  script/download_data.R --url="https://archive.ics.uci.edu/ml/machine-le
 python  script/download_data.py --url="https://archive.ics.uci.edu/ml/machine-learning-databases/00445/Absenteeism_at_work_AAA.zip" --out_path="data"
 
 # load, clean and save the data
-python  script/read_clean_split.py --input="data/Absenteeism_at_work.csv" --out_dir="results"
+python  script/read_clean_split_data.py --input="data/Absenteeism_at_work.csv" --out_dir="results"
 
 # create exploratory data analysis
 Rscript script/eda.R --train="results/train_df.feather" --out_dir="results"
