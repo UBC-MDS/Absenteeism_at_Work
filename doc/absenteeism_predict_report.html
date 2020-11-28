@@ -400,6 +400,7 @@ summary {
 <blockquote>
 <p>Based on some given information of an employee, regarding personal, working and health ambits, how many hours of absence would be expected from that employee in a given month?</p>
 </blockquote>
+<p>In this project we built three machine learning models, which are random forest regressor, support vector machine regressor with linear kernel and ridge regressor, to make predictions on absenteeism time in hours from “Absenteeism at work” dataset. Our machine learning models did not perform a very good job even after we applied recursive feature elimination. From feature selection, we found that the most impactful feature is “Reason for absence”. The best mean cross-validation <span class="math inline">\(R^2\)</span> score we got is 0.09 from <code>ridge regressor</code>, and the other 2 validation scores are 0.05 from <code>support vector machine regressor with linear kernel</code> and -0.15 from <code>random forest regressor</code>. Thus, we used <code>ridge regression</code> model on the test data and our test score is 0.085. Our unsatisfied prediction results may affect the decision and judgement that an employer make while dealing with absenteeism among employees. Thus, We suggest that more sophisticated approaches on feature selection and machine learning models should be applied on this data to improve the prediction results; alternatively, a more representative and independent dataset is needed to perform the prediction upon, in order to gain the correct direction on absenteeism issues.</p>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -474,27 +475,27 @@ Figure 3. Reasons of Absence feature distribution
 <tbody>
 <tr class="odd">
 <td align="left">fit_time</td>
-<td align="right">0.2535638</td>
-<td align="right">0.1853960</td>
-<td align="right">2.7311072</td>
+<td align="right">0.2268667</td>
+<td align="right">0.2044175</td>
+<td align="right">2.7218767</td>
 </tr>
 <tr class="even">
 <td align="left">score_time</td>
-<td align="right">0.0556055</td>
-<td align="right">0.0764016</td>
-<td align="right">0.1198312</td>
+<td align="right">0.0674204</td>
+<td align="right">0.0959224</td>
+<td align="right">0.0918088</td>
 </tr>
 <tr class="odd">
 <td align="left">test_score</td>
 <td align="right">0.0631696</td>
 <td align="right">0.0569267</td>
-<td align="right">-0.2162912</td>
+<td align="right">-0.1527934</td>
 </tr>
 <tr class="even">
 <td align="left">train_score</td>
 <td align="right">0.0704791</td>
 <td align="right">0.2766440</td>
-<td align="right">0.8426543</td>
+<td align="right">0.8357503</td>
 </tr>
 </tbody>
 </table>
@@ -515,27 +516,27 @@ Figure 3. Reasons of Absence feature distribution
 <tbody>
 <tr class="odd">
 <td align="left">fit_time</td>
-<td align="right">7.4991183</td>
-<td align="right">8.0024274</td>
-<td align="right">8.9400370</td>
+<td align="right">7.5928011</td>
+<td align="right">8.2742509</td>
+<td align="right">8.0435517</td>
 </tr>
 <tr class="even">
 <td align="left">score_time</td>
-<td align="right">0.0341920</td>
-<td align="right">0.0378488</td>
-<td align="right">0.0829998</td>
+<td align="right">0.0466359</td>
+<td align="right">0.0368004</td>
+<td align="right">0.0778455</td>
 </tr>
 <tr class="odd">
 <td align="left">test_score</td>
 <td align="right">0.0475836</td>
 <td align="right">0.0937344</td>
-<td align="right">-0.1959250</td>
+<td align="right">-0.1460047</td>
 </tr>
 <tr class="even">
 <td align="left">train_score</td>
 <td align="right">0.0505426</td>
 <td align="right">0.1724282</td>
-<td align="right">0.2754509</td>
+<td align="right">0.2736223</td>
 </tr>
 </tbody>
 </table>

@@ -2,6 +2,7 @@
 title: "Predicting absenteeism hours at work from different features"
 author: MDS DSCI 522 Group 21
 date: "27/11/2020"
+always_allow_html: true
 output: 
   html_document:
     toc: true
@@ -18,6 +19,8 @@ library(feather)
 > In this project, we are trying to address the following **predictive question**: 
 
 > Based on some given information of an employee, regarding personal, working and health ambits, how many hours of absence would be expected from that employee in a given month?
+
+In this project we built three machine learning models, which are random forest regressor, support vector machine regressor with linear kernel and ridge regressor, to make predictions on absenteeism time in hours from "Absenteeism at work" dataset. Our machine learning models did not perform a very good job even after we applied recursive feature elimination. From feature selection, we found that the most impactful feature is "Reason for absence". The best mean cross-validation $R^2$ score we got is 0.09 from `ridge regressor`, and the other 2 validation scores are 0.05 from `support vector machine regressor with linear kernel` and -0.15 from `random forest regressor`. Thus, we used `ridge regression` model on the test data and our test score is 0.085. Our unsatisfied prediction results may affect the decision and judgement that an employer make while dealing with absenteeism among employees. Thus, We suggest that more sophisticated approaches on feature selection and machine learning models should be applied on this data to improve the prediction results; alternatively, a more representative and independent dataset is needed to perform the prediction upon, in order to gain the correct direction on absenteeism issues.
 
 # Introduction
 
@@ -46,19 +49,19 @@ We performed some exploratory data analysis (EDA) on the training data only:
 From figure 1, We observed that there are some considerable correlations between features, as well as there is bare correlations between the target and respective features. For example, `Disciplinary failure` and `Reason for absence`; `Hit target` and `Month of absence`; `body mass index`/`weight` and `service time` seem to be highly correlated features. 
 
 ```{r correlation matrix, fig.cap="Figure 1. Correlation matrix between all features and the target", out.width = '100%'}
-knitr::include_graphics("../script/results/correlation_matrix.png")
+knitr::include_graphics("../results/correlation_matrix.png")
 ```
 
 We also looked into the distributions (figure 2) of each feature and the target and we detect many outliers in the target. 
 
 ```{r frequency distributions, fig.cap="Figure 2. Frequency distributions for all features and the target", out.width = '100%'}
-knitr::include_graphics("../script/results/distribution_plot.png")
+knitr::include_graphics("../results/distribution_plot.png")
 ```
 
 We also examined the distribution for the particular feature `Reason of Absence` (figure 3.), which has one of the relatively highest correlation with the target, and observe that justifications 22 (medical consultation) and 27 (Dental Consultation) are the most common, causing the reasons for absence in 191 out of the 508 observations taken.
 
 ```{r reasons of Absence distribution, fig.cap="Figure 3. Reasons of Absence feature distribution", out.width = '100%'}
-knitr::include_graphics("../script/results/frequency_plot.png")
+knitr::include_graphics("../results/frequency_plot.png")
 ```
 
 ### Prediction models & evaluation metric
@@ -80,7 +83,7 @@ For evaluation metric, $R^2$ score is used to assess how these models perform, a
 First, We performed cross validation on the train data set with 5 cross-validation folds using all 3 machine learning models. Table 1 shows the original mean cross-validation $R^2$ scores for each prediction model. The $R^2$ score for `support vector machine with linear kernel` is 0.06 and for `ridge regressor` is 0.07, while `random forest regressor` has a score of -0.16 which was very bad. It is noteworthy that there is no obvious overfitting problem with `support vector machine with linear kernel` or `ridge regressor` models; however `random forest regressor` seems to suffer from severe overfitting as its training score is 0.84 which is drastically higher than its negative cross-validation score. Given these poorly performing cross-validation scores, we proceed with feature selection to try to filter down to the most important features and train our models accordingly again. 
 
 ```{r non REF cv results}
-non_RFE_CV_results <- read_feather("../script/results/non_RFE_CV_results.feather")
+non_RFE_CV_results <- read_feather("../results/non_RFE_CV_results.feather")
 knitr::kable(non_RFE_CV_results, caption = "Table 1. Non feature selection mean cross validation R-square scores of all three machine learning models")
 ```
 
@@ -90,14 +93,14 @@ knitr::kable(non_RFE_CV_results, caption = "Table 1. Non feature selection mean 
 We used recursive feature elimination and cross-validated selection (`RFECV`) along with the 3 machine learning models to cross validation again and obtain the mean cross-validation $R^2$ scores based on the most important features selected. Table 2 shows that during `RFECV` feature selection, `ridge regressor` performed the best and obtained a higher than before $R^2$ score of 0.097 compared to `support vector machine with linear kernel` which produced a similar $R^2$ score of 0.06 and `random forest regressor` which again yielded a negative $R^2$ score.
 
 ```{r REF cv results}
-RFE_CV_results <- read_feather("../script/results/RFE_CV_results.feather")
+RFE_CV_results <- read_feather("../results/RFE_CV_results.feather")
 knitr::kable(RFE_CV_results, caption = "Table 2. Feature selection mean cross validation R-square scores of all three machine learning models")
 ```
 
 As a result, we picked `ridge regressor` as our prediction model, specifically, we used `ridge regression with built-in cross-validation` which contains an in-built hyperparameter tuning mechanism. The most optimal hyperparameter alpha given by the model is 10, and the 13 most important features selected by REFCV are listed in descending order shown in table 3. With the top 11 most important features all coming from `Reason for absence`, plus the `month July` and whether or not an employee has `disciplinary failure` being the last 2 most important features out of the 13.
 
 ```{r best coefficients}
-best_coefficients <- read_feather("../script/results/best_coefficients.feather")
+best_coefficients <- read_feather("../results/best_coefficients.feather")
 knitr::kable(best_coefficients, caption = "Table 3. Most important Features selected with associated coefficients under ridge regressor prediction model")
 ```
 

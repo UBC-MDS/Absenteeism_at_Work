@@ -3,8 +3,7 @@ Predicting absenteeism hours at work from different features
 MDS DSCI 522 Group 21
 27/11/2020
 
-Summary
-=======
+# Summary
 
 > In this project, we are trying to address the following **predictive
 > question**:
@@ -13,8 +12,26 @@ Summary
 > working and health ambits, how many hours of absence would be expected
 > from that employee in a given month?
 
-Introduction
-============
+In this project we built three machine learning models, which are random
+forest regressor, support vector machine regressor with linear kernel
+and ridge regressor, to make predictions on absenteeism time in hours
+from “Absenteeism at work” dataset. Our machine learning models did not
+perform a very good job even after we applied recursive feature
+elimination. From feature selection, we found that the most impactful
+feature is “Reason for absence”. The best mean cross-validation \(R^2\)
+score we got is 0.09 from `ridge regressor`, and the other 2 validation
+scores are 0.05 from `support vector machine regressor with linear
+kernel` and -0.15 from `random forest regressor`. Thus, we used `ridge
+regression` model on the test data and our test score is 0.085. Our
+unsatisfied prediction results may affect the decision and judgement
+that an employer make while dealing with absenteeism among employees.
+Thus, We suggest that more sophisticated approaches on feature selection
+and machine learning models should be applied on this data to improve
+the prediction results; alternatively, a more representative and
+independent dataset is needed to perform the prediction upon, in order
+to gain the correct direction on absenteeism issues.
+
+# Introduction
 
 Absenteeism in the workplace is the habitual absence behavior from work
 without a valid reason(“2016 Absence Management Annual Survey Report”
@@ -34,8 +51,7 @@ absenteeism. If employers can use the results to predict absenteeism
 among employees, they can make effective plans in advance to deal with
 the upcoming problems and reduce extra costs caused by absenteeism.
 
-Data
-====
+# Data
 
 We chose a data set from the UCI Machine Learning Repository called
 “Absenteeism at work Data Set”. The data set can be found
@@ -55,8 +71,7 @@ family, workload, and other factors that might be related to absence at
 work. Out of the considered attributes, the absenteeism in hours is our
 prediction target.
 
-Methods
-=======
+# Methods
 
 ### Analysis tools
 
@@ -90,15 +105,18 @@ only:
 From figure 1, We observed that there are some considerable correlations
 between features, as well as there is bare correlations between the
 target and respective features. For example, `Disciplinary failure` and
-`Reason for absence`; `Hit target` and `Month of absence`;
-`body mass index`/`weight` and `service time` seem to be highly
-correlated features.
+`Reason for absence`; `Hit target` and `Month of absence`; `body mass
+index`/`weight` and `service time` seem to be highly correlated
+features.
 
 <div class="figure">
 
-<img src="../script/results/correlation_matrix.png" alt="Figure 1. Correlation matrix between all features and the target" width="100%" />
+<img src="../results/correlation_matrix.png" alt="Figure 1. Correlation matrix between all features and the target" width="100%" />
+
 <p class="caption">
+
 Figure 1. Correlation matrix between all features and the target
+
 </p>
 
 </div>
@@ -108,24 +126,30 @@ target and we detect many outliers in the target.
 
 <div class="figure">
 
-<img src="../script/results/distribution_plot.png" alt="Figure 2. Frequency distributions for all features and the target" width="100%" />
+<img src="../results/distribution_plot.png" alt="Figure 2. Frequency distributions for all features and the target" width="100%" />
+
 <p class="caption">
+
 Figure 2. Frequency distributions for all features and the target
+
 </p>
 
 </div>
 
-We also examined the distribution for the particular feature
-`Reason of Absence` (figure 3.), which has one of the relatively highest
+We also examined the distribution for the particular feature `Reason of
+Absence` (figure 3.), which has one of the relatively highest
 correlation with the target, and observe that justifications 22 (medical
 consultation) and 27 (Dental Consultation) are the most common, causing
 the reasons for absence in 191 out of the 508 observations taken.
 
 <div class="figure">
 
-<img src="../script/results/frequency_plot.png" alt="Figure 3. Reasons of Absence feature distribution" width="100%" />
+<img src="../results/frequency_plot.png" alt="Figure 3. Reasons of Absence feature distribution" width="100%" />
+
 <p class="caption">
+
 Figure 3. Reasons of Absence feature distribution
+
 </p>
 
 </div>
@@ -136,47 +160,45 @@ Post EDA, we are ready to use supervised machine learning models to
 perform prediction and to obtain the most suitable algorithm for our
 Abseentism prediction task. The models we chose are:
 
--   `support vector machine with linear kernel` - we chose this model
+  - `support vector machine with linear kernel` - we chose this model
     for its accuracy when a considerable amount of features are
     utilized.
 
--   `ridge regressor` - we selected this model to better deal with
+  - `ridge regressor` - we selected this model to better deal with
     multicollinearity between the features.
 
--   `random forest regressor` - we chose this model for its efficiency
+  - `random forest regressor` - we chose this model for its efficiency
     and easiness to view relative feature importance.
 
-For evaluation metric, *R*<sup>2</sup> score is used to assess how these
-models perform, as it measures how well the models adapt and represent
-the data, with 1 being making a perfect prediction and 0 being not
-having any predicting power.
+For evaluation metric, \(R^2\) score is used to assess how these models
+perform, as it measures how well the models adapt and represent the
+data, with 1 being making a perfect prediction and 0 being not having
+any predicting power.
 
-Prediction results
-==================
+# Prediction results
 
 ### Cross validation
 
 First, We performed cross validation on the train data set with 5
 cross-validation folds using all 3 machine learning models. Table 1
-shows the original mean cross-validation *R*<sup>2</sup> scores for each
-prediction model. The *R*<sup>2</sup> score for
-`support vector machine with linear kernel` is 0.06 and for
-`ridge regressor` is 0.07, while `random forest regressor` has a score
-of -0.16 which was very bad. It is noteworthy that there is no obvious
-overfitting problem with `support vector machine with linear kernel` or
-`ridge regressor` models; however `random forest regressor` seems to
-suffer from severe overfitting as its training score is 0.84 which is
-drastically higher than its negative cross-validation score. Given these
-poorly performing cross-validation scores, we proceed with feature
-selection to try to filter down to the most important features and train
-our models accordingly again.
+shows the original mean cross-validation \(R^2\) scores for each
+prediction model. The \(R^2\) score for `support vector machine with
+linear kernel` is 0.06 and for `ridge regressor` is 0.07, while `random
+forest regressor` has a score of -0.16 which was very bad. It is
+noteworthy that there is no obvious overfitting problem with `support
+vector machine with linear kernel` or `ridge regressor` models; however
+`random forest regressor` seems to suffer from severe overfitting as its
+training score is 0.84 which is drastically higher than its negative
+cross-validation score. Given these poorly performing cross-validation
+scores, we proceed with feature selection to try to filter down to the
+most important features and train our models accordingly again.
 
 | index        | Linear SVM |     Ridge | Random Forest |
-|:-------------|-----------:|----------:|--------------:|
-| fit\_time    |  0.2535638 | 0.1853960 |     2.7311072 |
-| score\_time  |  0.0556055 | 0.0764016 |     0.1198312 |
-| test\_score  |  0.0631696 | 0.0569267 |    -0.2162912 |
-| train\_score |  0.0704791 | 0.2766440 |     0.8426543 |
+| :----------- | ---------: | --------: | ------------: |
+| fit\_time    |  0.2268667 | 0.2044175 |     2.7218767 |
+| score\_time  |  0.0674204 | 0.0959224 |     0.0918088 |
+| test\_score  |  0.0631696 | 0.0569267 |   \-0.1527934 |
+| train\_score |  0.0704791 | 0.2766440 |     0.8357503 |
 
 Table 1. Non feature selection mean cross validation R-square scores of
 all three machine learning models
@@ -185,20 +207,20 @@ all three machine learning models
 
 We used recursive feature elimination and cross-validated selection
 (`RFECV`) along with the 3 machine learning models to cross validation
-again and obtain the mean cross-validation *R*<sup>2</sup> scores based
-on the most important features selected. Table 2 shows that during
-`RFECV` feature selection, `ridge regressor` performed the best and
-obtained a higher than before *R*<sup>2</sup> score of 0.097 compared to
-`support vector machine with linear kernel` which produced a similar
-*R*<sup>2</sup> score of 0.06 and `random forest regressor` which again
-yielded a negative *R*<sup>2</sup> score.
+again and obtain the mean cross-validation \(R^2\) scores based on the
+most important features selected. Table 2 shows that during `RFECV`
+feature selection, `ridge regressor` performed the best and obtained a
+higher than before \(R^2\) score of 0.097 compared to `support vector
+machine with linear kernel` which produced a similar \(R^2\) score of
+0.06 and `random forest regressor` which again yielded a negative
+\(R^2\) score.
 
 | index        | Linear SVM |     Ridge | Random Forest |
-|:-------------|-----------:|----------:|--------------:|
-| fit\_time    |  7.4991183 | 8.0024274 |     8.9400370 |
-| score\_time  |  0.0341920 | 0.0378488 |     0.0829998 |
-| test\_score  |  0.0475836 | 0.0937344 |    -0.1959250 |
-| train\_score |  0.0505426 | 0.1724282 |     0.2754509 |
+| :----------- | ---------: | --------: | ------------: |
+| fit\_time    |  7.5928011 | 8.2742509 |     8.0435517 |
+| score\_time  |  0.0466359 | 0.0368004 |     0.0778455 |
+| test\_score  |  0.0475836 | 0.0937344 |   \-0.1460047 |
+| train\_score |  0.0505426 | 0.1724282 |     0.2736223 |
 
 Table 2. Feature selection mean cross validation R-square scores of all
 three machine learning models
@@ -214,20 +236,20 @@ employee has `disciplinary failure` being the last 2 most important
 features out of the 13.
 
 | index                  | Coefficients |
-|:-----------------------|-------------:|
-| Reason for absence\_0  |    -4.076700 |
+| :--------------------- | -----------: |
+| Reason for absence\_0  |   \-4.076700 |
 | Reason for absence\_2  |     1.329469 |
 | Reason for absence\_6  |     5.686487 |
 | Reason for absence\_9  |     8.113978 |
 | Reason for absence\_12 |     6.904067 |
 | Reason for absence\_13 |     6.304106 |
 | Reason for absence\_19 |     9.179391 |
-| Reason for absence\_23 |    -6.295894 |
-| Reason for absence\_25 |    -4.157175 |
-| Reason for absence\_27 |    -5.816594 |
-| Reason for absence\_28 |    -5.833860 |
+| Reason for absence\_23 |   \-6.295894 |
+| Reason for absence\_25 |   \-4.157175 |
+| Reason for absence\_27 |   \-5.816594 |
+| Reason for absence\_28 |   \-5.833860 |
 | Month of absence\_7    |     3.880589 |
-| Disciplinary failure   |    -4.076700 |
+| Disciplinary failure   |   \-4.076700 |
 
 Table 3. Most important Features selected with associated coefficients
 under ridge regressor prediction model
@@ -235,35 +257,33 @@ under ridge regressor prediction model
 ### Test result
 
 Now we are ready to use `ridge regressor` as the best prediction model
-on our test data set. The final test *R*<sup>2</sup> score we got is
-0.085. Similar to the cross validation scores we got, again this is a
-very low *R*<sup>2</sup> closer to 0, which is essentially implying the
-best prediction model we selected does not have much predicting power,
-and the 13 most important features selected do not influence the target
-that much. As a result, it is insufficient to use our machine learning
-model to predict how many hours of absence from a worker in a given
-month.
+on our test data set. The final test \(R^2\) score we got is 0.085.
+Similar to the cross validation scores we got, again this is a very low
+\(R^2\) closer to 0, which is essentially implying the best prediction
+model we selected does not have much predicting power, and the 13 most
+important features selected do not influence the target that much. As a
+result, it is insufficient to use our machine learning model to predict
+how many hours of absence from a worker in a given month.
 
-Discussions
-===========
+# Discussions
 
 ### Critique
 
 There are limitations and assumptions associated with our prediction
 task:
 
--   The dataset is collected from one single courier company in Brazil,
+  - The dataset is collected from one single courier company in Brazil,
     which means that the data might not be independent and
     representative of the population that we are interested in
     predicting.
 
--   From the preliminary data analysis, we see that there is no strong
+  - From the preliminary data analysis, we see that there is no strong
     correlation between each single feature and the target, which is a
     signal that there might not be a great representation of target from
     the given features. There are obvious multicollinearity in between
     features which could have affected our prediction model performance.
 
--   In addition, from the frequency distributions, there are many
+  - In addition, from the frequency distributions, there are many
     outliers in our target which potentially also make our model
     prediction power very low, as our model was trained towards fitting
     the outliers.
@@ -280,10 +300,9 @@ deal with multicollinear data and outlier data; 2. find and use a more
 representative and independent dataset that could better represent the
 population.
 
-References
-==========
+# References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references">
 
 <div id="ref-CIPD">
 
