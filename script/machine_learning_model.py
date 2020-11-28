@@ -2,7 +2,9 @@
 # date: 2020-11-27
 """A script that loads the training and test sets as well as the preprocessor
    object to perform the machine learnng training and predicton
+   
 Usage: machine_learning_model.py --input_train=<input_train> --input_test=<input_test> --input_processor=<input_processor> --out_dir=<out_dir> 
+
 Options:
 --input_train=<input_train>                 Path (including filename) to training data (feather file) used for model training
 --input_test=<input_test>                   Path (including filename) to test data (feather file) used for the scoring
