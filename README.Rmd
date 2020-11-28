@@ -1,17 +1,15 @@
 ---
-title: "Absenteeism Hours Predictor"
-author: DSCI 522 Group 21
-output: md_document
+output: github_document
 bibliography: doc/absenteeism_refs.bib
 ---
 
 # Absenteeism Hours Predictor
 
-- author: DSCI 522 Group 21
+- Author: MDS DSCI 522 Group 21
 
-### About
+## About
 
-In this project we built three machine learning models, which are randomforest regressor, supporting vector machine regressor with linear kernel and ridge regressor, to make predictions on absenteeism time in hours from "Absenteeism at work" dataset. There are 20 features from the origin dataset and we are using 19 of them after dropping "ID". After extracting the categorical features with one-hot-encoder, we got 64 features. Our regressors did not perform a very good $R^2$ score nor a very low mean square error even though we applied recursive feature elimination. From feature selection, we found that the most impactful feature is "Reason for absence". There are 515 training data cases and 222 test cases, the best validation $R^2$ score we got is 0.09 from ridge regressor, and the other 2 validation scores are 0.05 from supporting vector machine regressor with linear kernel and -0.2 from random forest regressor. So we used ridge regression on the test data and our test score is 0.085. Our unsatisfied prediction results may affect the decision and judgement that an employer make while dealing with absenteeism among the employees. So we suggest that more methods on feature selection and machine learning models can be applied on this data set to improve the prediction results in order to lead to the correct direction for employers on absenteeism issues.
+In this project we built three machine learning models, which are `random forest regressor`, `support vector machine regressor with linear kernel` and `ridge regressor`, to make predictions on absenteeism time in hours from "Absenteeism at work" dataset. There are 515 training and 222 test data observations. We used 19 columns after dropping "ID" as our features, and `Absenteeism time in hours` as the target. After extracting categorical, binary, and ordinal features with preprocessing, we ended up with 64 features. Our machine learning models did not perform a very good job even after we applied recursive feature elimination. From feature selection, we found that the most impactful feature is "Reason for absence". The best mean cross-validation $R^2$ score we got is 0.09 from `ridge regressor`, and the other 2 validation scores are 0.05 from `support vector machine regressor with linear kernel` and -0.15 from `random forest regressor`. Thus, we used `ridge regression` model on the test data and our test score is 0.085. Our unsatisfied prediction results may affect the decision and judgement that an employer make while dealing with absenteeism among employees. Thus, We suggest that more sophisticated approaches on feature selection and machine learning models should be applied on this data to improve the prediction results; alternatively, a more representative and independent dataset is needed to perform the prediction upon, in order to gain the correct direction on absenteeism issues.
 
 Our data set is chosen from the UCI Machine Learning Repository called "Absenteeism at work Data Set". The data set can be found [here](https://archive.ics.uci.edu/ml/datasets/Absenteeism+at+work#) and it is created by Andrea Martiniano, Ricardo Pinto Ferreira, and Renato Jose Sassi from Postgraduate Program in Informatics and Knowledge Management at Nove de Julho University, Rua Vergueiro[@data]. The data was collected at a courier company in Brazil and the database includes the monthly records of absenteeism of 36 different workers over three years, starting from July 2007, and how their changes affect their absence rate over time. This data set contains 740 instances with 21 attributes, including 8 categorical and 11 numerical features (excluding the target `Absenteeism time in hours` and the drop feature `ID`). Each row represents information about an employee with his/her situations of absence, family, workload, and other factors that might be related to his/her absence at work. Out of the considered attributes, the absenteeism in hours is the target to predict with the provided information, and the features are:
 
@@ -56,12 +54,12 @@ Our data set is chosen from the UCI Machine Learning Repository called "Absentee
 -   **Body Mass Index** (numeric feature): Body mass percentage (%) of each employee.
 
 
-### Report
+## Report
 
-The final report can be found here.
+The final report can be found [here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/UBC-MDS/dsci-522_group-21/main/doc/absenteeism_predict_report.html)
 
 
-### Usage
+## Usage
 
 The replication of this project can be done by installing the following dependencies and running the following command from the root directory of this project to unzip the data:
 
@@ -73,7 +71,7 @@ Rscript  script/download_data.R --url="https://archive.ics.uci.edu/ml/machine-le
 python  script/download_data.py --url="https://archive.ics.uci.edu/ml/machine-learning-databases/00445/Absenteeism_at_work_AAA.zip" --out_path="data"
 
 # load, clean and save the data
-python  script/read_clean_split.py --input="data/Absenteeism_at_work.csv" --out_dir="results"
+python  script/read_clean_split_data.py --input="data/Absenteeism_at_work.csv" --out_dir="results"
 
 # create exploratory data analysis
 Rscript script/eda.R --train="results/train_df.feather" --out_dir="results"
@@ -85,11 +83,11 @@ python script/preprocessing_machine_learning.py --input_train="results/train_df.
 python script/machine_learning_model.py --input_train="results/train_df.feather" --input_test="results/test_df.feather" --input_processor="results/processor.pickle" --out_dir="results"
 
 # render the report
-
+Rscript -e "rmarkdown::render('doc/absenteeism_predict_report.Rmd', output_format = 'github_document')"
 
 ```
 
-### Dependencies
+## Dependencies
 
 -   ipykernel
 
@@ -120,5 +118,6 @@ python script/machine_learning_model.py --input_train="results/train_df.feather"
   + xgboost\>=1.\*
 
   + lightgbm\>=3.\*
+  
 
-### References
+# References
