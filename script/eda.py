@@ -31,12 +31,12 @@ def main(input, out_dir):
   info = train_df.info()
   
   # save the info table to a feather file
-  info_file = out_dir + "/info_df.feather"
-  try:  
-      feather.write_dataframe(info, info_file)
-  except:
-      os.makedirs(os.path.dirname(info_file))
-      feather.write_dataframe(info, info_file)
+  # info_file = out_dir + "/info_df.feather"
+  # try:  
+  #     feather.write_dataframe(info, info_file)
+  # except:
+  #     os.makedirs(os.path.dirname(info_file))
+  #     feather.write_dataframe(info, info_file)
       
   # generate the correlation matrix
   train_df_copy = train_df.copy()
