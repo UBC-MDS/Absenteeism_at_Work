@@ -37,6 +37,11 @@ def main(input_train, out_dir):
   # read the train dataframe
   train_df = pd.read_feather(input_train)
   
+  # remove the outliner
+  mean_hours = train_df["Absenteeism time in hours"].mean()
+  sd_hours = train_df["Absenteeism time in hours"].std()
+  train_df = train_df[train_df["Absenteeism time in hours"] < mean_hours +3*sd_hours]
+  
   # split train_df into X_train, y_train
   X_train, y_train = train_df.drop(columns = ["ID", "Absenteeism time in hours"]), train_df["Absenteeism time in hours"]
 
