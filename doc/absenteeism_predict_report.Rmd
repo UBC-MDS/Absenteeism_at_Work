@@ -90,7 +90,7 @@ Given these closely performing `negative RMSE` mean cv scores across all three m
 
 ```{r default cv results}
 non_RFE_CV_results <- read_feather("../results/non_RFE_CV_results.feather")
-knitr::kable(non_RFE_CV_results, caption = "Table 1. Non feature selection mean cross validation R-square scores of all three machine learning models")
+knitr::kable(non_RFE_CV_results, caption = "Table 1. Default mean cross validation negative root mean squared error & R-square scores of all three machine learning models")
 ```
 
 ### Feature selection & hyperparameter tuning
@@ -99,7 +99,7 @@ We used recursive feature elimination and cross-validated selection (`RFECV`) on
 
 ```{r REF cv results}
 RFE_CV_results <- read_feather("../results/RFE_CV_results.feather")
-knitr::kable(RFE_CV_results, caption = "Table 2. Feature selection mean cross validation R-square scores of all three machine learning models")
+knitr::kable(RFE_CV_results, caption = "Table 2. Feature selection mean cross validation negative root mean squared error & R-square scores of all three machine learning models")
 ```
 
 As a result, we picked `support vector machine with linear kernel` as our final prediction model. The 19 most important features (out of 49 total transformed features) of our final prediction model selected by REFCV are listed in descending order shown in table 3. with the majority of important features coming from `Reason for absence`. Furthermore `Tuesday` and whether or not an employee is a `social drinker` being another 2 important features out of the 19.
@@ -108,7 +108,7 @@ In addition, we performed hyperparameter tuning on our final prediction model us
 
 ```{r best coefficients}
 best_coefficients <- read_feather("../results/best_coefficients.feather")
-knitr::kable(best_coefficients, caption = "Table 3. Most important Features selected with associated coefficients under ridge regressor prediction model")
+knitr::kable(best_coefficients, caption = "Table 3. Top 19 important features selected with associated coefficients under support vector machine linear regressor prediction model")
 ```
 
 ### Test result
@@ -117,7 +117,7 @@ Now we are ready to use our final prediction model `support vector machine with 
 
 Lastly, we included the residual plot in Figure 4, which shows the residuals of our predictions on Y axis and all the actual test targets on the X axis. We can see that the majority of our prediction residuals are clustered around 0 throughout the entire test data set, and our prediction model is performing a decent job in predicting the hours of absence from a worker with some errors. 
 
-```{r residual plot, fig.cap="Figure 4. Prediction residuals distribution vs actual test target values", out.width = '100%'}
+```{r residual plot, fig.cap="Figure 4. Prediction residuals vs actual test target values", out.width = '100%'}
 # knitr::include_graphics("../results/residual_plot.png")
 ```
 
