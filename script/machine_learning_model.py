@@ -60,7 +60,7 @@ def main(input_train, input_test, input_processor, out_dir):
   for name,model in models.items():
         pipeline = make_pipeline(preprocessor, model)
         results_original_dict[name] = pd.DataFrame(cross_validate(pipeline, X_train, y_train, cv=5, return_train_score=True, n_jobs=-1)).mean()
-  non_RFE_results = pd.DataFrame(results_original_dict)
+  non_RFE_results = pd.DataFrame(results_original_dict).reset_index()
   #Saving the results without RFE  
   non_RFE_results_file = out_dir + "/non_RFE_CV_results.feather"
   try:  
@@ -78,7 +78,7 @@ def main(input_train, input_test, input_processor, out_dir):
   for name,model in models.items():
         pipeline = make_pipeline(preprocessor,RFECV(Ridge(), cv=5), model)
         results_dict[name] = pd.DataFrame(cross_validate(pipeline, X_train, y_train, cv=5, return_train_score=True, n_jobs=-1)).mean()      
-  RFE_results = pd.DataFrame(results_dict)
+  RFE_results = pd.DataFrame(results_dict).reset_index()
   #Saving the results with RFE  
   RFE_results_file = out_dir + "/RFE_CV_results.feather" 
   feather.write_dataframe(RFE_results, RFE_results_file)
@@ -94,6 +94,7 @@ def main(input_train, input_test, input_processor, out_dir):
   lr_coefs = ridge_pipeline[2].coef_
   attributes= pd.Series(total_features)[ridge_pipeline.named_steps["rfecv"].support_]
   best_attributes=pd.DataFrame(data=lr_coefs, index=attributes.values, columns=["Coefficients"])
+  best_attributes = best_attributes.reset_index()
   #Saving the coefficients and attributes
   coef_path = out_dir + "/best_coefficients.feather" 
   feather.write_dataframe(best_attributes, coef_path)
