@@ -46,10 +46,11 @@ def main(input_train, out_dir):
   X_train, y_train = train_df.drop(columns = ["ID", "Absenteeism time in hours"]), train_df["Absenteeism time in hours"]
 
   # create the features lists by type
-  numeric_features = X_train.select_dtypes('number').columns.tolist()
-  binary_features = X_train.select_dtypes('bool').columns.tolist()
-  categorical_features = X_train.select_dtypes('category').drop(columns=["Education"]).columns.tolist()
+  numeric_features = X_train.select_dtypes('number').drop(columns=["Body mass index", "Service time"]).columns.tolist()
+  binary_features = X_train.select_dtypes('bool').drop(columns=["Disciplinary failure"]).columns.tolist()
+  categorical_features = X_train.select_dtypes('category').drop(columns=["Education", "Month of absence"]).columns.tolist()
   ordinal_features =['Education']
+  drop_features = ["ID","Disciplinary failure", "Body mass index", "Service time", "Month of absence"]
   education_levels = [1,2,3,4]
   
   # carry out cross validation
