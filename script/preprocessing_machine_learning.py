@@ -53,6 +53,41 @@ def main(input_train, out_dir):
   drop_features = ["ID","Disciplinary failure", "Body mass index", "Service time", "Month of absence"]
   education_levels = [1,2,3,4]
   
+  # re-categorize the Reason of absence feature to avoid overfitting
+  reason_list = {
+    "Reason for absence":
+      {0: 'Others',
+      1: 'Health related',
+      2: 'Health related',
+      3: 'Health related',
+      4: 'Health related',
+      5: 'Health related',
+      6: 'Health related',
+      7: 'Health related',
+      8: 'Health related',
+      9: 'Health related',
+      10: 'Health related',
+      11: 'Health related',
+      12: 'Health related',
+      13: 'Health related',
+      14: 'Health related',
+      15: 'Health related',
+      16: 'Health related',
+      17: 'Health related',
+      18: 'Health related',
+      19: 'Health related',
+      20: 'Health related',
+      21: 'Health related',
+      22: 'Health related',
+      23: 'Health related',
+      24: 'Others',
+      25: 'Health related',
+      26: 'Others',
+      27: 'Health related',
+      28: 'Health related'}
+      }
+  train_df = train_df.replace(reason_list)
+  
   # carry out cross validation
   numeric_transformer = make_pipeline(StandardScaler())
   categorical_transformer = make_pipeline(OneHotEncoder(handle_unknown="ignore"))
