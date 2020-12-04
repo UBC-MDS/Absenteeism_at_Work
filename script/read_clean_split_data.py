@@ -36,7 +36,7 @@ def main(input, out_dir):
   data['Day of the week'] = data['Day of the week'].astype('category')
   unuseful_idx = (data[data["Month of absence"] == 0]).index.tolist()
   data = data.drop(unuseful_idx)
-
+  
   
   # split the data
   train_df, test_df = train_test_split(data, test_size=0.3, random_state=123)

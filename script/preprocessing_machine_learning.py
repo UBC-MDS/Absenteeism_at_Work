@@ -45,14 +45,6 @@ def main(input_train, out_dir):
   # split train_df into X_train, y_train
   X_train, y_train = train_df.drop(columns = ["ID", "Absenteeism time in hours"]), train_df["Absenteeism time in hours"]
 
-  # create the features lists by type
-  numeric_features = X_train.select_dtypes('number').drop(columns=["Body mass index", "Service time"]).columns.tolist()
-  binary_features = X_train.select_dtypes('bool').drop(columns=["Disciplinary failure"]).columns.tolist()
-  categorical_features = X_train.select_dtypes('category').drop(columns=["Education", "Month of absence"]).columns.tolist()
-  ordinal_features =['Education']
-  drop_features = ["ID","Disciplinary failure", "Body mass index", "Service time", "Month of absence"]
-  education_levels = [1,2,3,4]
-  
   # re-categorize the Reason of absence feature to avoid overfitting
   reason_list = {
     "Reason for absence":
@@ -86,7 +78,17 @@ def main(input_train, out_dir):
       27: 'Health related',
       28: 'Health related'}
       }
-  train_df = train_df.replace(reason_list)
+  X_train = X_train.replace(reason_list)
+  
+  # create the features lists by type
+  numeric_features = X_train.select_dtypes('number').drop(columns=["Body mass index", "Service time"]).columns.tolist()
+  binary_features = X_train.select_dtypes('bool').drop(columns=["Disciplinary failure"]).columns.tolist()
+  categorical_features = X_train.select_dtypes('category').drop(columns=["Education", "Month of absence"]).columns.tolist()
+  ordinal_features =['Education']
+  drop_features = ["ID","Disciplinary failure", "Body mass index", "Service time", "Month of absence"]
+  education_levels = [1,2,3,4]
+  
+
   
   # carry out cross validation
   numeric_transformer = make_pipeline(StandardScaler())
