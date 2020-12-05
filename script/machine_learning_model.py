@@ -80,8 +80,9 @@ def main(input_xtrain, input_ytrain, input_xtest, input_ytest, input_processor, 
     "Random Forest":RandomForestRegressor(random_state=123)
     }
   for name,model in models.items():
-    pipeline = make_pipeline(preprocessor, model)
-    results_original_dict[name] = pd.DataFrame(cross_validate(pipeline, X_train, y_train, cv=5, return_train_score=True, n_jobs=-1, scoring=scoring)).mean()  
+      pipeline = make_pipeline(preprocessor, model)
+      results_original_dict[name] = pd.DataFrame(cross_validate(pipeline, X_train, y_train, cv=5, return_train_score=True, n_jobs=-1, scoring=scoring)).mean()  
+  
   original_results=pd.DataFrame(results_original_dict)
   original_results.index = new_index
   non_RFE_results = original_results.reset_index()
@@ -128,35 +129,39 @@ def main(input_xtrain, input_ytrain, input_xtest, input_ytest, input_processor, 
   
   
   #getting most influential attributes
-  new_colnames = ["Reason for absence_Unknown", 
-  "Reason for absence_Physiotherapy",
-  "Reason for absence_Medical consultation",
-  "Reason for absence_Dental consultation",
-  "Reason for absence_Laboratory examination",
-  "Reason for absence_Certain conditions originating in the perinatal period",
-  "Reason for absence_Neoplasms",
-  "Reason for absence_Endocrine, nutritional and metabolic diseases",
-  "Social drinker",
-  "Reason for absence_Congenital malformations, deformations and chromosomal abnormalities",
-  "Reason for absence_Certain infectious and parasitic diseases",
-  "Reason for absence_Injury, poisoning and certain other consequences of external causes",
-  "Day of the week_Tuesday",
-  "Reason for absence_Diseases of the musculoskeletal system and connective tissue",
-  "Reason for absence_Diseases of the skin and subcutaneous tissue",
-  "Reason for absence_Diseases of the digestive system",
-  "Reason for absence_Diseases of the eye and adnexa",
-  "Reason for absence_Diseases of the genitourinary system"]
+  new_colnames = {"index":
+    {"Reason for absence_0":"Reason for absence_Unknown", 
+    "Reason for absence_27": "Reason for absence_Physiotherapy",
+    "Reason for absence_23": "Reason for absence_Medical consultation",
+    "Reason for absence_28": "Reason for absence_Dental consultation",
+    "Reason for absence_25": "Reason for absence_Laboratory examination",
+    "Reason for absence_16": "Reason for absence_Certain conditions originating in the perinatal period",
+    "Reason for absence_2": "Reason for absence_Neoplasms",
+    "Reason for absence_4": "Reason for absence_Endocrine, nutritional and metabolic diseases",
+    "Social drinker": "Social drinker",
+    "Reason for absence_17": "Reason for absence_Congenital malformations, deformations and chromosomal abnormalities",
+    "Reason for absence_1":  "Reason for absence_Certain infectious and parasitic diseases",
+    "Reason for absence_19": "Reason for absence_Injury, poisoning and certain other consequences of external causes",
+    "Day of the week_2": "Day of the week_Tuesday",
+    "Reason for absence_13": "Reason for absence_Diseases of the musculoskeletal system and connective tissue",
+    "Reason for absence_12": "Reason for absence_Diseases of the skin and subcutaneous tissue",
+    "Reason for absence_11": "Reason for absence_Diseases of the digestive system",
+    "Reason for absence_7":  "Reason for absence_Diseases of the eye and adnexa",
+    "Reason for absence_14": "Reason for absence_Diseases of the genitourinary system"}}
   
   lr_coefs = random_grid.best_estimator_[2].coef_.toarray()
   attributes= pd.Series(total_features)[random_grid.best_estimator_.named_steps["rfecv"].support_]
-  best_attributes=pd.DataFrame(data=lr_coefs.transpose(), index=new_colnames, columns=["Coefficients"])
+  best_attributes=pd.DataFrame(data=lr_coefs.transpose(), index=attributes, columns=["Coefficients"])
   best_attributes["Coefficient Magnitudes"] = np.abs(best_attributes["Coefficients"])
-  best_attributes = best_attributes["Coefficient Magnitudes"].sort_values(ascending=False)
+  best_attributes = best_attributes["Coefficient Magnitudes"].sort_values(ascending=False).reset_index()
+  best_attributes = pd.DataFrame(best_attributes)
+  best_attributes = best_attributes.replace(new_colnames)
+  best_attributes = best_attributes.rename(columns = {"index":"Features"})
   
   
   #Saving the coefficients and attributes
   coef_path = out_dir + "/best_coefficients.feather" 
-  feather.write_dataframe(best_attributes.reset_index(), coef_path)
+  feather.write_dataframe(best_attributes, coef_path)
   
   
   #Scoring the model
