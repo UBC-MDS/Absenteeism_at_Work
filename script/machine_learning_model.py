@@ -128,9 +128,28 @@ def main(input_xtrain, input_ytrain, input_xtest, input_ytest, input_processor, 
   
   
   #getting most influential attributes
+  new_colnames = ["Reason for absence_Unknown", 
+  "Reason for absence_Physiotherapy",
+  "Reason for absence_Medical consultation",
+  "Reason for absence_Dental consultation",
+  "Reason for absence_Laboratory examination",
+  "Reason for absence_Certain conditions originating in the perinatal period",
+  "Reason for absence_Neoplasms",
+  "Reason for absence_Endocrine, nutritional and metabolic diseases",
+  "Social drinker",
+  "Reason for absence_Congenital malformations, deformations and chromosomal abnormalities",
+  "Reason for absence_Certain infectious and parasitic diseases",
+  "Reason for absence_Injury, poisoning and certain other consequences of external causes",
+  "Day of the week_Tuesday",
+  "Reason for absence_Diseases of the musculoskeletal system and connective tissue",
+  "Reason for absence_Diseases of the skin and subcutaneous tissue",
+  "Reason for absence_Diseases of the digestive system",
+  "Reason for absence_Diseases of the eye and adnexa",
+  "Reason for absence_Diseases of the genitourinary system"]
+  
   lr_coefs = random_grid.best_estimator_[2].coef_.toarray()
   attributes= pd.Series(total_features)[random_grid.best_estimator_.named_steps["rfecv"].support_]
-  best_attributes=pd.DataFrame(data=lr_coefs.transpose(), index=attributes, columns=["Coefficients"])
+  best_attributes=pd.DataFrame(data=lr_coefs.transpose(), index=new_colnames, columns=["Coefficients"])
   best_attributes["Coefficient Magnitudes"] = np.abs(best_attributes["Coefficients"])
   best_attributes = best_attributes["Coefficient Magnitudes"].sort_values(ascending=False)
   
