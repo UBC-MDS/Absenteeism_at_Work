@@ -21,8 +21,8 @@ the “Absenteeism at work” dataset.
 
 Our final model `support vector machine regressor with linear kernel`
 performed a decent job on an unseen test data set, with `negative RMSE`
-score of -5.825. On 222 test data cases, the average hours that our
-model missed to predict is 5.825 hours, which is not bad at all.
+score of -5.966. On 222 test data cases, the average hours that our
+model missed to predict is 5.966 hours, which is not bad at all.
 However, in both the train and test dataset, our predictor tends to over
 predict when the actual absenteeism hours are low and under predict in
 the case of actual absenteeism hours are high.
@@ -88,9 +88,9 @@ and Python packages were used: tidyverse(Wickham 2017), dplyr(Wickham et
 al. 2020), knitr(Xie 2014), ggcorrplot(Kassambara 2019), ggthemes(Arnold
 2019), docopt R(de Jonge 2018), docopt Python(Keleshev 2014), feather
 Python(McKinney 2019), os(Van Rossum and Drake 2009), Pandas(McKinney
-2010), and scikit-learn(Buitinck et al. 2013). The code used to perform
-the analysis and create this report can be found
-[here](https://github.com/UBC-MDS/dsci-522_group-21).
+2010), scikit-learn(Buitinck et al. 2013), and Seaborn(Waskom et al.
+2017). The code used to perform the analysis and create this report can
+be found [here](https://github.com/UBC-MDS/dsci-522_group-21).
 
 ### Preliminary data Analysis
 
@@ -198,22 +198,24 @@ and `negative RMSE` scores for each machine learning model. The key
 takeaway from this table is that the
 `support vector machine with linear kernel` model seems to be a good
 candidate predictor model with least overfitting issues and similar
-`negative RMSE` mean cv scores of around -5 to its peer models.
+`negative RMSE` mean cv scores of around -5.35 to its peer models.
 
 Given these closely performing `negative RMSE` mean cv scores across all
 three models, we proceed with feature selection to try to filter down
 the most suitable model to use along with its associated most important
 features.
 
-| index        | Linear SVM |     Ridge | Random Forest |
-|:-------------|-----------:|----------:|--------------:|
-| fit\_time    |  0.2268667 | 0.2044175 |     2.7218767 |
-| score\_time  |  0.0674204 | 0.0959224 |     0.0918088 |
-| test\_score  |  0.0631696 | 0.0569267 |    -0.1527934 |
-| train\_score |  0.0704791 | 0.2766440 |     0.8357503 |
+| index                                      | Linear SVM |      Ridge | Random Forest |
+|:-------------------------------------------|-----------:|-----------:|--------------:|
+| fit\_time                                  |  0.1204071 |  0.0659957 |     1.2993999 |
+| score\_time                                |  0.0345930 |  0.0310109 |     0.0534021 |
+| validation\_r2                             |  0.2160269 |  0.2446704 |     0.2022706 |
+| train\_r2                                  |  0.2452374 |  0.3383638 |     0.8751218 |
+| validation\_neg\_root\_mean\_square\_error | -5.3488568 | -5.2467506 |    -5.3669521 |
+| train\_neg\_root\_mean\_square\_error      | -5.2730458 | -4.9366837 |    -2.1426097 |
 
-Table 1. Non feature selection mean cross validation R-square scores of
-all three machine learning models
+Table 1. Default mean cross validation negative root mean squared error
+& R-square scores of all three machine learning models
 
 ### Feature selection & hyperparameter tuning
 
@@ -224,21 +226,23 @@ cross-validation (cv) again. Table 2 shows the mean cv and train
 features selected associated with each of the 3 models. The key takeaway
 from this table is that the `support vector machine with linear kernel`
 model seems to be the best predictor model with least overfitting issues
-and this time a better `negative RMSE` mean cv scores of -4.81 than its
+and this time a better `negative RMSE` mean cv scores of -5.25 than its
 peer models.
 
-| index        | Linear SVM |     Ridge | Random Forest |
-|:-------------|-----------:|----------:|--------------:|
-| fit\_time    |  7.5928011 | 8.2742509 |     8.0435517 |
-| score\_time  |  0.0466359 | 0.0368004 |     0.0778455 |
-| test\_score  |  0.0475836 | 0.0937344 |    -0.1460047 |
-| train\_score |  0.0505426 | 0.1724282 |     0.2736223 |
+| index                                      | Linear SVM |      Ridge | Random Forest |
+|:-------------------------------------------|-----------:|-----------:|--------------:|
+| fit\_time                                  |  3.1549056 |  2.9064684 |     3.3588285 |
+| score\_time                                |  0.0187016 |  0.0183062 |     0.0375952 |
+| validation\_r2                             |  0.2441726 |  0.2245500 |     0.1782126 |
+| train\_r2                                  |  0.2572283 |  0.3161027 |     0.4830969 |
+| validation\_neg\_root\_mean\_square\_error | -5.2457038 | -5.3154618 |    -5.4566107 |
+| train\_neg\_root\_mean\_square\_error      | -5.2308771 | -5.0185697 |    -4.3339998 |
 
-Table 2. Feature selection mean cross validation R-square scores of all
-three machine learning models
+Table 2. Feature selection mean cross validation negative root mean
+squared error & R-square scores of all three machine learning models
 
 As a result, we picked `support vector machine with linear kernel` as
-our final prediction model. The 19 most important features (out of 49
+our final prediction model. The 18 most important features (out of 49
 total transformed features) of our final prediction model selected by
 REFCV are listed in descending order shown in table 3. with the majority
 of important features coming from `Reason for absence`. Furthermore
@@ -248,32 +252,37 @@ another 2 important features out of the 19.
 In addition, we performed hyperparameter tuning on our final prediction
 model using `random search cross validation` and the best
 hyperparameters given are gamma of 0.1 and C of 1, while hyperparameter
-tuning did not improve further our -4.81 `negative RMSE` mean cv scores.
+tuning did not improve further our -5.25 `negative RMSE` mean cv scores.
 
-| index                  | Coefficients |
-|:-----------------------|-------------:|
-| Reason for absence\_0  |    -4.076700 |
-| Reason for absence\_2  |     1.329469 |
-| Reason for absence\_6  |     5.686487 |
-| Reason for absence\_9  |     8.113978 |
-| Reason for absence\_12 |     6.904067 |
-| Reason for absence\_13 |     6.304106 |
-| Reason for absence\_19 |     9.179391 |
-| Reason for absence\_23 |    -6.295894 |
-| Reason for absence\_25 |    -4.157175 |
-| Reason for absence\_27 |    -5.816594 |
-| Reason for absence\_28 |    -5.833860 |
-| Month of absence\_7    |     3.880589 |
-| Disciplinary failure   |    -4.076700 |
+| Features                                                                                 | Coefficient Magnitudes |
+|:-----------------------------------------------------------------------------------------|-----------------------:|
+| Reason for absence\_Unknown                                                              |              7.2248159 |
+| Reason for absence\_Physiotherapy                                                        |              5.0253065 |
+| Reason for absence\_Medical consultation                                                 |              5.0250530 |
+| Reason for absence\_Dental consultation                                                  |              5.0250147 |
+| Reason for absence\_Laboratory examination                                               |              4.0250883 |
+| Reason for absence\_Certain conditions originating in the perinatal period               |              1.0000000 |
+| Reason for absence\_Neoplasms                                                            |              1.0000000 |
+| Reason for absence\_Endocrine, nutritional and metabolic diseases                        |              1.0000000 |
+| Social drinker                                                                           |              0.7752476 |
+| Reason for absence\_Congenital malformations, deformations and chromosomal abnormalities |              0.7752476 |
+| Reason for absence\_Certain infectious and parasitic diseases                            |              0.7747834 |
+| Reason for absence\_Injury, poisoning and certain other consequences of external causes  |              0.1994342 |
+| Day of the week\_Tuesday                                                                 |              0.0001282 |
+| Reason for absence\_Diseases of the musculoskeletal system and connective tissue         |              0.0000000 |
+| Reason for absence\_Diseases of the skin and subcutaneous tissue                         |              0.0000000 |
+| Reason for absence\_Diseases of the digestive system                                     |              0.0000000 |
+| Reason for absence\_Diseases of the eye and adnexa                                       |              0.0000000 |
+| Reason for absence\_Diseases of the genitourinary system                                 |              0.0000000 |
 
-Table 3. Most important Features selected with associated coefficients
-under ridge regressor prediction model
+Table 3. Top 18 important features selected with associated coefficients
+under support vector machine linear regressor prediction model
 
 ### Test result
 
 Now we are ready to use our final prediction model
 `support vector machine with linear kernel` on our test data set. The
-final test `negative RMSE` score is -5.825, which is very close to the
+final test `negative RMSE` score is -5.966, which is very close to the
 cross validation scores we got previously, which is a good indicator
 that our model generalizes well on the unseen test set.
 
@@ -283,6 +292,15 @@ on the X axis. We can see that the majority of our prediction residuals
 are clustered around 0 throughout the entire test data set, and our
 prediction model is performing a decent job in predicting the hours of
 absence from a worker with some errors.
+
+<div class="figure">
+
+<img src="../results/residual_plot.png" alt="Figure 4. Prediction residuals vs actual test target values" width="100%" />
+<p class="caption">
+Figure 4. Prediction residuals vs actual test target values
+</p>
+
+</div>
 
 Discussions
 ===========
@@ -420,6 +438,15 @@ Computing*. Vienna, Austria: R Foundation for Statistical Computing.
 
 Van Rossum, Guido, and Fred L. Drake. 2009. *Python 3 Reference Manual*.
 Scotts Valley, CA: CreateSpace.
+
+</div>
+
+<div id="ref-seaborn">
+
+Waskom, Michael, Olga Botvinnik, Drew O’Kane, Paul Hobson, Saulius
+Lukauskas, David C Gemperline, Tom Augspurger, et al. 2017.
+*Mwaskom/Seaborn: V0.8.1 (September 2017)* (version v0.8.1). Zenodo.
+<https://doi.org/10.5281/zenodo.883859>.
 
 </div>
 
