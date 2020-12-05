@@ -10,9 +10,9 @@ In this project, we built three machine learning regressor models:
 kernel` and `ridge regressor` to make predictions on absenteeism time in
 hours from the “Absenteeism at work” dataset. Our final model `support
 vector machine regressor with linear kernel` performed a decent job on
-an unseen test data set, with `negative RMSE` score of -5.825. On 222
+an unseen test data set, with `negative RMSE` score of -5.966. On 222
 test data cases, the average hours that our model missed to predict is
-5.825 hours, which is not bad at all. However, in both the train and
+5.966 hours, which is not bad at all. However, in both the train and
 test dataset, our predictor tends to over predict when the actual
 absenteeism hours are low and under predict in the case of actual
 absenteeism hours are high. Since our prediction results may affect the
@@ -41,13 +41,13 @@ his/her absence at work. Out of the considered attributes, the
 absenteeism in hours is the target to predict with the provided
 information, and the features are:
 
-  - **ID** (feature that will be dropped): Individual Identification of
-    each employee. There are 36 distinct individuals.
+  - **ID** (this will be dropped): Individual Identification of each
+    employee. There are 36 distinct individuals.
 
   - **Reason for absence** (categorical feature): Justification for the
     registered absence hours of each employee.
 
-  - **Month of absence** (categorical feature): The month in which the
+  - **Month of absence** (this will be dropped): The month in which the
     absentee time is registered.
 
   - **Day of the week** (categorical feature): The five business days of
@@ -62,8 +62,8 @@ information, and the features are:
   - **Distance from residence to work** (numeric feature): Distance
     covered by each employee daily in kilometers.
 
-  - **Service Time** (numeric feature): Service time of each employee in
-    years.
+  - **Service Time** (this will be dropped): Service time of each
+    employee in years.
 
   - **Age** (numeric feature): Age of each employee in years.
 
@@ -73,7 +73,7 @@ information, and the features are:
   - **Hit target** (numeric feature): achievement percentage (%) of
     periodic goals for each employee.
 
-  - **Disciplinary failure** (binary feature): Whether or not the
+  - **Disciplinary failure** (this will be dropped): Whether or not the
     employee received a disciplinary warning that month.
 
   - **Education** (ordinal feature): Level of education of each
@@ -94,13 +94,13 @@ information, and the features are:
   - **Height** (numeric feature): Height of each employee in
     centimeters.
 
-  - **Body Mass Index** (numeric feature): Body mass percentage (%) of
-    each employee.
+  - **Body Mass Index** (this will be dropped): Body mass percentage (%)
+    of each employee.
 
 ## Report
 
 The final report can be found
-xx[here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/UBC-MDS/dsci-522_group-21/main/doc/absenteeism_predict_report.html)xx
+[here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/UBC-MDS/dsci-522_group-21/main/doc/absenteeism_predict_report.html)
 
 ## Usage
 
@@ -129,6 +129,8 @@ root directory of this project:
       - scikit-learn\>=0.23.2
     
       - requests==2.22.0
+    
+      - seaborn==0.8.1
 
   - R version 3.6.1 and R packages:
     

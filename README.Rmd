@@ -56,7 +56,7 @@ Our data set is chosen from the UCI Machine Learning Repository called "Absentee
 
 ## Report
 
-The final report can be found xx[here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/UBC-MDS/dsci-522_group-21/main/doc/absenteeism_predict_report.html)xx
+The final report can be found [here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/UBC-MDS/dsci-522_group-21/main/doc/absenteeism_predict_report.html)
 
 
 ## Usage
