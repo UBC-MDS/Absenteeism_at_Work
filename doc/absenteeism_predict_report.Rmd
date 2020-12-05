@@ -22,7 +22,7 @@ library(feather)
 
 In this project, we built three machine learning regressor models: `random forest regressor`, `support vector machine regressor with linear kernel` and `ridge regressor` to make predictions on absenteeism time in hours from the "Absenteeism at work" dataset. 
 
-Our final model `support vector machine regressor with linear kernel` performed a decent job on an unseen test data set, with `negative RMSE` score of -5.825. On 222 test data cases, the average hours that our model missed to predict is 5.825 hours, which is not bad at all. However, in both the train and test dataset, our predictor tends to over predict when the actual absenteeism hours are low and under predict in the case of actual absenteeism hours are high. 
+Our final model `support vector machine regressor with linear kernel` performed a decent job on an unseen test data set, with `negative RMSE` score of -5.966. On 222 test data cases, the average hours that our model missed to predict is 5.966 hours, which is not bad at all. However, in both the train and test dataset, our predictor tends to over predict when the actual absenteeism hours are low and under predict in the case of actual absenteeism hours are high. 
 
 Since our prediction results may affect the decision and judgement that an employer makes when dealing with absenteeism among employees, we suggest that more sophisticated approaches on machine learning algorithm and feature selection should be conducted to improve the prediction model before it is being used to direct on absenteeism issues at the workplace.
 
@@ -40,7 +40,7 @@ We chose a data set from the UCI Machine Learning Repository called "Absenteeism
 
 ### Analysis tools
 
-We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], and scikit-learn[@sklearn_api]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21). 
+We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21). 
 
 ### Preliminary data Analysis
 
@@ -84,41 +84,41 @@ For evaluation metric, both $R^2$ score and `negative root mean squared error` (
 
 ### Cross validation
 
-First, We performed cross validation on the train data set with 5 cross-validation folds using all 3 machine learning models. Table 1 shows the default mean cross-validation (cv) and train $R^2$ and `negative RMSE` scores for each machine learning model. The key takeaway from this table is that the `support vector machine with linear kernel` model seems to be a good candidate predictor model with least overfitting issues and similar `negative RMSE` mean cv scores of around -5 to its peer models. 
+First, We performed cross validation on the train data set with 5 cross-validation folds using all 3 machine learning models. Table 1 shows the default mean cross-validation (cv) and train $R^2$ and `negative RMSE` scores for each machine learning model. The key takeaway from this table is that the `support vector machine with linear kernel` model seems to be a good candidate predictor model with least overfitting issues and similar `negative RMSE` mean cv scores of around -5.35 to its peer models. 
 
 Given these closely performing `negative RMSE` mean cv scores across all three models, we proceed with feature selection to try to filter down the most suitable model to use along with its associated most important features. 
 
 ```{r default cv results}
 non_RFE_CV_results <- read_feather("../results/non_RFE_CV_results.feather")
-knitr::kable(non_RFE_CV_results, caption = "Table 1. Non feature selection mean cross validation R-square scores of all three machine learning models")
+knitr::kable(non_RFE_CV_results, caption = "Table 1. Default mean cross validation negative root mean squared error & R-square scores of all three machine learning models")
 ```
 
 ### Feature selection & hyperparameter tuning
 
-We used recursive feature elimination and cross-validated selection (`RFECV`) on the 3 machine learning models and we performed cross-validation (cv) again. Table 2 shows the mean cv and train $R^2$ and `negative RMSE` scores based on the most important features selected associated with each of the 3 models. The key takeaway from this table is that the `support vector machine with linear kernel` model seems to be the best predictor model with least overfitting issues and this time a better `negative RMSE` mean cv scores of -4.81 than its peer models.
+We used recursive feature elimination and cross-validated selection (`RFECV`) on the 3 machine learning models and we performed cross-validation (cv) again. Table 2 shows the mean cv and train $R^2$ and `negative RMSE` scores based on the most important features selected associated with each of the 3 models. The key takeaway from this table is that the `support vector machine with linear kernel` model seems to be the best predictor model with least overfitting issues and this time a better `negative RMSE` mean cv scores of -5.25 than its peer models.
 
 ```{r REF cv results}
 RFE_CV_results <- read_feather("../results/RFE_CV_results.feather")
-knitr::kable(RFE_CV_results, caption = "Table 2. Feature selection mean cross validation R-square scores of all three machine learning models")
+knitr::kable(RFE_CV_results, caption = "Table 2. Feature selection mean cross validation negative root mean squared error & R-square scores of all three machine learning models")
 ```
 
-As a result, we picked `support vector machine with linear kernel` as our final prediction model. The 19 most important features (out of 49 total transformed features) of our final prediction model selected by REFCV are listed in descending order shown in table 3. with the majority of important features coming from `Reason for absence`. Furthermore `Tuesday` and whether or not an employee is a `social drinker` being another 2 important features out of the 19.
+As a result, we picked `support vector machine with linear kernel` as our final prediction model. The 18 most important features (out of 49 total transformed features) of our final prediction model selected by REFCV are listed in descending order shown in table 3. with the majority of important features coming from `Reason for absence`. Furthermore `Tuesday` and whether or not an employee is a `social drinker` being another 2 important features out of the 19.
 
-In addition, we performed hyperparameter tuning on our final prediction model using `random search cross validation` and the best hyperparameters given are gamma of 0.1 and C of 1, while hyperparameter tuning did not improve further our -4.81 `negative RMSE` mean cv scores.
+In addition, we performed hyperparameter tuning on our final prediction model using `random search cross validation` and the best hyperparameters given are gamma of 0.1 and C of 1, while hyperparameter tuning did not improve further our -5.25 `negative RMSE` mean cv scores.
 
 ```{r best coefficients}
 best_coefficients <- read_feather("../results/best_coefficients.feather")
-knitr::kable(best_coefficients, caption = "Table 3. Most important Features selected with associated coefficients under ridge regressor prediction model")
+knitr::kable(best_coefficients, caption = "Table 3. Top 18 important features selected with associated coefficients under support vector machine linear regressor prediction model")
 ```
 
 ### Test result
 
-Now we are ready to use our final prediction model `support vector machine with linear kernel` on our test data set. The final test `negative RMSE` score is -5.825, which is very close to the cross validation scores we got previously, which is a good indicator that our model generalizes well on the unseen test set. 
+Now we are ready to use our final prediction model `support vector machine with linear kernel` on our test data set. The final test `negative RMSE` score is -5.966, which is very close to the cross validation scores we got previously, which is a good indicator that our model generalizes well on the unseen test set. 
 
 Lastly, we included the residual plot in Figure 4, which shows the residuals of our predictions on Y axis and all the actual test targets on the X axis. We can see that the majority of our prediction residuals are clustered around 0 throughout the entire test data set, and our prediction model is performing a decent job in predicting the hours of absence from a worker with some errors. 
 
-```{r residual plot, fig.cap="Figure 4. Prediction residuals distribution vs actual test target values", out.width = '100%'}
-# knitr::include_graphics("../results/residual_plot.png")
+```{r residual plot, fig.cap="Figure 4. Prediction residuals vs actual test target values", out.width = '100%'}
+knitr::include_graphics("../results/residual_plot.png")
 ```
 
 # Discussions
