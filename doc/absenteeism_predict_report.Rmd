@@ -102,13 +102,13 @@ RFE_CV_results <- read_feather("../results/RFE_CV_results.feather")
 knitr::kable(RFE_CV_results, caption = "Table 2. Feature selection mean cross validation negative root mean squared error & R-square scores of all three machine learning models")
 ```
 
-As a result, we picked `support vector machine with linear kernel` as our final prediction model. The 19 most important features (out of 49 total transformed features) of our final prediction model selected by REFCV are listed in descending order shown in table 3. with the majority of important features coming from `Reason for absence`. Furthermore `Tuesday` and whether or not an employee is a `social drinker` being another 2 important features out of the 19.
+As a result, we picked `support vector machine with linear kernel` as our final prediction model. The 18 most important features (out of 49 total transformed features) of our final prediction model selected by REFCV are listed in descending order shown in table 3. with the majority of important features coming from `Reason for absence`. Furthermore `Tuesday` and whether or not an employee is a `social drinker` being another 2 important features out of the 19.
 
 In addition, we performed hyperparameter tuning on our final prediction model using `random search cross validation` and the best hyperparameters given are gamma of 0.1 and C of 1, while hyperparameter tuning did not improve further our -5.25 `negative RMSE` mean cv scores.
 
 ```{r best coefficients}
 best_coefficients <- read_feather("../results/best_coefficients.feather")
-knitr::kable(best_coefficients, caption = "Table 3. Top 19 important features selected with associated coefficients under support vector machine linear regressor prediction model")
+knitr::kable(best_coefficients, caption = "Table 3. Top 18 important features selected with associated coefficients under support vector machine linear regressor prediction model")
 ```
 
 ### Test result
