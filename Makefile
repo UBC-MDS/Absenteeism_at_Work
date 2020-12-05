@@ -17,15 +17,15 @@ results/correlation_matrix.png results/distribution_plot.png results/frequency_p
 	Rscript script/eda.R --train="results/train_df.feather" --out_dir="results"
 
 # pre-process the data
-results/processor.pickle: results/train_df.feather
-	python script/preprocessing_machine_learning.py --input_train="results/train_df.feather" --out_dir="results"
+results/processor.pickle results/X_train.pickle results/y_train.pickle results/X_test.pickle results/y_test.pickle: results/train_df.feather results/test_df.feather
+	python script/preprocessing_machine_learning.py --input_train="results/train_df.feather" --input_test="results/test_df.feather" --out_dir="results"
 
 # fit the models and get test results from the best model
-results/best_coefficients.feather results/non_RFE_CV_results.feather results/RFE_CV_results.feather: results/train_df.feather results/test_df.feather results/processor.pickle
-	python script/machine_learning_model.py --input_train="results/train_df.feather" --input_test="results/test_df.feather" --input_processor="results/processor.pickle" --out_dir="results"
+results/best_coefficients.feather results/non_RFE_CV_results.feather results/RFE_CV_results.feather results/residual_plot.png: results/train_df.feather results/test_df.feather results/processor.pickle
+	python script/machine_learning_model.py --input_xtrain="results/X_train.pickle" --input_ytrain="results/y_train.pickle" --input_xtest="results/X_test.pickle" --input_ytest="results/y_test.pickle" --input_processor="results/processor.pickle" --input_total_features="results/total_features.pickle" --out_dir="results"
 
 # render the report
-doc/absenteeism_predict_report.html doc/absenteeism_predict_report.md : doc/absenteeism_predict_report.Rmd results/best_coefficients.feather results/correlation_matrix.png results/distribution_plot.png results/frequency_plot.png results/non_RFE_CV_results.feather results/RFE_CV_results.feather results/test_score.pickle
+doc/absenteeism_predict_report.html doc/absenteeism_predict_report.md : doc/absenteeism_predict_report.Rmd results/best_coefficients.feather results/correlation_matrix.png results/distribution_plot.png results/frequency_plot.png results/non_RFE_CV_results.feather results/RFE_CV_results.feather results/residual_plot.png
 	Rscript -e "rmarkdown::render('doc/absenteeism_predict_report.Rmd', output_format = 'github_document')"
 	
 clean: 
