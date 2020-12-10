@@ -20,10 +20,18 @@ RUN apt-get update -qq && install2.r --error \
     reticulate \
     docopt 
     
-# install the anaconda 
+# install anaconda & put it in the PATH
+RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+    wget --quiet https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh -O ~/anaconda.sh && \
+    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+    rm ~/anaconda.sh 
+
+# put anaconda python in path
+ENV PATH="/opt/conda/bin:${PATH}"
 
 # install python packages
-    
+RUN conda install -y -c conda-forge feather-format   
 
+RUN conda install -y -c anaconda docopt
     
    
