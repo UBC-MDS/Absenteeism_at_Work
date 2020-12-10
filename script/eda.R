@@ -13,13 +13,10 @@ Options:
 
 library(feather)
 library(tidyverse)
-library(caret)
 library(docopt)
 library(ggthemes)
 theme_set(theme_minimal())
-library(reshape2)
 library(ggplot2)
-library(janitor)
 library(dplyr)
 library(ggcorrplot)
 
