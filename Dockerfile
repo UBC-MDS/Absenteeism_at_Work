@@ -30,12 +30,15 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 ENV PATH="/opt/conda/bin:${PATH}"
 
 # install python packages
-RUN conda install -y -c conda-forge feather-format   
+RUN conda install -y -c conda-forge feather-format \
+    pyarrow
 
 RUN conda install -y -c anaconda docopt \
     requests \
-    pandas
+    pandas \
+    seaborn \
+    scikit-learn
     
-RUN conda install -y -c scikit-learn
+
     
    
