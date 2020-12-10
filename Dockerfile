@@ -32,6 +32,10 @@ ENV PATH="/opt/conda/bin:${PATH}"
 # install python packages
 RUN conda install -y -c conda-forge feather-format   
 
-RUN conda install -y -c anaconda docopt
+RUN conda install -y -c anaconda docopt \
+    requests \
+    pandas
+    
+RUN conda install -y -c scikit-learn
     
    
