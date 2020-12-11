@@ -1,0 +1,142 @@
+---
+title: "Predicting absenteeism hours at work from different features"
+author: MDS DSCI 522 Group 21
+date: "27/11/2020"
+always_allow_html: true
+output: 
+  html_document:
+    toc: true
+bibliography: absenteeism_refs.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(feather)
+```
+
+# Summary
+
+> In this project, we are trying to address the following **predictive question**: 
+
+> Based on some given information of an employee, regarding personal, working and health ambits, how many hours of absence would be expected from that employee?
+
+In this project, we built three machine learning regressor models: `random forest regressor`, `support vector machine regressor with linear kernel` and `ridge regressor` to make predictions on absenteeism time in hours from the "Absenteeism at work" dataset. 
+
+Our final model `support vector machine regressor with linear kernel` performed a decent job on an unseen test data set, with `negative RMSE` score of -5.966. On 222 test data cases, the average hours that our model missed to predict is 5.966 hours, which is not bad at all. However, in both the train and test dataset, our predictor tends to over predict when the actual absenteeism hours are low and under predict in the case of actual absenteeism hours are high. 
+
+Since our prediction results may affect the decision and judgement that an employer makes when dealing with absenteeism among employees, we suggest that more sophisticated approaches on machine learning algorithm and feature selection should be conducted to improve the prediction model before it is being used to direct on absenteeism issues at the workplace.
+
+# Introduction
+
+Absenteeism in the workplace is the habitual absence behavior from work without a valid reason[@CIPD]. It is a very common case experienced by employers and it has become a serious problem that employers always want to deal with. The UK Chartered Institute of Personnel and Development(also known as CIPD) estimated that employers had to pay £595 on each employee per year and which is caused by 7.6 absent days from each worker on average in 2013[@book2]. In addition to higher financial costs, absenteeism might lead to reduced productivity levels and low morale in workplaces, which affects the overall operation of an organization.
+
+Here we would like to experiment if we could use a machine learning model to make predictions and find the most influential features on absenteeism. If employers can use the results to predict absenteeism among employees, they can make effective plans in advance to deal with the upcoming problems and reduce extra costs caused by absenteeism.
+
+# Data
+
+We chose a data set from the UCI Machine Learning Repository called "Absenteeism at work Data Set". The data set can be found [here](https://archive.ics.uci.edu/ml/datasets/Absenteeism+at+work#) and it is created by Andrea Martiniano, Ricardo Pinto Ferreira, and Renato Jose Sassi from Postgraduate Program in Informatics and Knowledge Management at Nove de Julho University, Rua Vergueiro[@data]. The data was collected at a courier company in Brazil and the database includes the monthly records of absenteeism of 36 different workers over three years, starting from July 2007, and how their changes affect their absence rate over time. This data set contains 740 instances with 21 attributes, including 6 categorical and 9 numerical features (excluding the target `Absenteeism time in hours` and the drop feature `ID`, `Disciplinary failure`, `Body mass index`, `Service time`, and `Month of absence`). Each row represents information about an employee's situations of absence, family, workload, and other factors that might be related to absence at work. Out of the considered attributes, the absenteeism in hours is our prediction target.
+
+# Methods
+
+### Analysis tools
+
+We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21). 
+
+### Preliminary data Analysis
+
+Prior to preliminary data analysis and building the model, we splitted the data into a 515 training set and a 222 test set (70% : 30% split). We assume that the test data set is representative of the deployment data that the model is going to face in the future. Therefore the test data set are saved and only be used to predict and score the trained model. Then we performed some exploratory data analysis (EDA) on the training data only: 
+
+From figure 1, We observed that there are some considerable correlations between features, as well as there is some correlations between the target and respective features. For example, `Disciplinary failure` and `Reason for absence`; `Hit target` and `Month of absence`; `body mass index` and `weight`; `weight` and `service time` seem to be highly correlated features. As a result, we decided to drop the `Disciplinary failure`, `Body mass index`, `Service time`, and `Month of absence` features to better deal with multicollinearity issues. 
+
+```{r correlation matrix, fig.cap="Figure 1. Correlation matrix between all features and the target", out.width = '100%'}
+knitr::include_graphics("../results/correlation_matrix.png")
+```
+
+We looked into the distributions (figure 2) of each feature and the target and we detect many outliers in the target. Therefore, in both of our train and test data, we removed some extreme outliers.
+
+```{r frequency distributions, fig.cap="Figure 2. Frequency distributions for all features and the target", out.width = '100%'}
+knitr::include_graphics("../results/distribution_plot.png")
+```
+
+We examined the distribution for the particular feature `Reason of Absence` (figure 3), which has one of the relatively highest correlation with the target, and observe that justifications 22 (medical consultation) and 27 (Dental Consultation) are the most common, causing the reasons for absence in 191 out of the 508 observations taken.
+
+```{r reasons of Absence distribution, fig.cap="Figure 3. Reasons of Absence feature distribution", out.width = '100%'}
+knitr::include_graphics("../results/frequency_plot.png")
+```
+
+### Data preprocessing and transforming
+
+We built a preprocessing and transforming pipeline for all features: simple scaler for numeric features, one hot encoding for both categorical and binary features, ordinal encoding for ordinal features, and we dropped features `ID`, `Disciplinary failure`, `Body mass index`, `Service time`, and `Month of absence` to better deal with multicollinearity issues. In addition, in both of our train and test data, we removed some extreme outliers to better deal with extreme edge cases.
+
+### Prediction models & evaluation metric
+
+Post EDA, we are ready to use supervised machine learning models to perform prediction and to obtain the most suitable algorithm for our Abseentism prediction task. The models we chose are: 
+
+* `support vector machine with linear kernel` - we chose this model for its accuracy when a considerable amount of features are utilized. 
+
+* `ridge regressor` - we selected this model to better deal with multicollinearity between the features.
+
+* `random forest regressor` - we chose this model for its efficiency and easiness to view relative feature importance.
+
+For evaluation metric, both $R^2$ score and `negative root mean squared error` (`negative RMSE`) are used to assess how these models perform. Specifically, $R^2$ measures how well the models adapt and represent the training data, with 1 being making a perfect prediction and 0 being not having any predicting power; whereas `negative RMSE` measures how many absenteeism hours our prediction model misses in the validation / test data set. More importantly, we will focus on the `negative RMSE` because this measurement matters to our prediction task the most.
+
+# Prediction results
+
+### Cross validation
+
+First, We performed cross validation on the train data set with 5 cross-validation folds using all 3 machine learning models. Table 1 shows the default mean cross-validation (cv) and train $R^2$ and `negative RMSE` scores for each machine learning model. The key takeaway from this table is that the `support vector machine with linear kernel` model seems to be a good candidate predictor model with least overfitting issues and similar `negative RMSE` mean cv scores of around -5.35 to its peer models. 
+
+Given these closely performing `negative RMSE` mean cv scores across all three models, we proceed with feature selection to try to filter down the most suitable model to use along with its associated most important features. 
+
+```{r default cv results}
+non_RFE_CV_results <- read_feather("../results/non_RFE_CV_results.feather")
+knitr::kable(non_RFE_CV_results, caption = "Table 1. Default mean cross validation negative root mean squared error & R-square scores of all three machine learning models")
+```
+
+### Feature selection & hyperparameter tuning
+
+We used recursive feature elimination and cross-validated selection (`RFECV`) on the 3 machine learning models and we performed cross-validation (cv) again. Table 2 shows the mean cv and train $R^2$ and `negative RMSE` scores based on the most important features selected associated with each of the 3 models. The key takeaway from this table is that the `support vector machine with linear kernel` model seems to be the best predictor model with least overfitting issues and this time a better `negative RMSE` mean cv scores of -5.25 than its peer models.
+
+```{r REF cv results}
+RFE_CV_results <- read_feather("../results/RFE_CV_results.feather")
+knitr::kable(RFE_CV_results, caption = "Table 2. Feature selection mean cross validation negative root mean squared error & R-square scores of all three machine learning models")
+```
+
+As a result, we picked `support vector machine with linear kernel` as our final prediction model. The 18 most important features (out of 49 total transformed features) of our final prediction model selected by REFCV are listed in descending order shown in table 3. with the majority of important features coming from `Reason for absence`. Furthermore `Tuesday` and whether or not an employee is a `social drinker` being another 2 important features out of the 19.
+
+In addition, we performed hyperparameter tuning on our final prediction model using `random search cross validation` and the best hyperparameters given are gamma of 0.1 and C of 1, while hyperparameter tuning did not improve further our -5.25 `negative RMSE` mean cv scores.
+
+```{r best coefficients}
+best_coefficients <- read_feather("../results/best_coefficients.feather")
+knitr::kable(best_coefficients, caption = "Table 3. Top 18 important features selected with associated coefficients under support vector machine linear regressor prediction model")
+```
+
+### Test result
+
+Now we are ready to use our final prediction model `support vector machine with linear kernel` on our test data set. The final test `negative RMSE` score is -5.966, which is very close to the cross validation scores we got previously, which is a good indicator that our model generalizes well on the unseen test set. 
+
+Lastly, we included the residual plot in Figure 4, which shows the residuals of our predictions on Y axis and all the actual test targets on the X axis. We can see that the majority of our prediction residuals are clustered around 0 throughout the entire test data set, and our prediction model is performing a decent job in predicting the hours of absence from a worker with some errors. 
+
+```{r residual plot, fig.cap="Figure 4. Prediction residuals vs actual test target values", out.width = '100%'}
+knitr::include_graphics("../results/residual_plot.png")
+```
+
+# Discussions
+
+### Critique
+
+There are limitations and assumptions associated with our prediction task:
+
+* The dataset is collected from one single courier company in Brazil, which means that the data might not be independent and representative of the population that we are interested in predicting.
+
+* From the preliminary data analysis, we see that there is no strong correlation between each single feature and the target, which is a signal that there might not be a great representation of target from the given features. There are obvious multicollinearity in between features, which we decided on removing prior to training our machine learning models, and this might not have been the best approach to deal with multicollinearity.
+
+* In addition, from the frequency distributions, there are many outliers in our target, so we decided on removing some prior to training our models, which also might not have been the most effective way to deal with outliers, and could potentially make our prediction model more sensitive and less robust when it comes to predicting on extreme cases.  
+
+### Future directions
+
+Given the current Machine Learning tools we have learned so far, we were able to answer our predictive question in a basic manner. If we were to have more time to explore deeper, we would 1. research into more advanced machine learning models that particularly deal with multicollinear data and outlier data; 2. find and use a more representative and independent dataset that could better represent the population to perform analysis and prediction on.
+
+# References
+
+

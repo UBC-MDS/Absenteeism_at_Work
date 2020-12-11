@@ -38,7 +38,7 @@ that would lead to absence from work.
 ### Data Set Description
 
 We chose a data set from the UCI Machine Learning Repository called
-“Absenteeism at work Data Set”. The data set can be found
+“Absenteeism at work Data Set.” The data set can be found
 [here](https://archive.ics.uci.edu/ml/datasets/Absenteeism+at+work#) and
 it is created by Andrea Martiniano, Ricardo Pinto Ferreira, and Renato
 Jose Sassi from Postgraduate Program in Informatics and Knowledge
@@ -220,4 +220,4 @@ Postgraduate Program in Informatics; Knowledge Management.
 Cucchiella, Federica, Massimo Gastaldi, and Luigi Ranieri. 2014.
 “Managing Absenteeism in the Workplace: The Case of an Italian
 Multiutility Company.” *Procedia - Social and Behavioral Sciences* 150:
-1157–66. <https://doi.org/https://doi.org/10.1016/j.sbspro.2014.09.131>.
+1157–66. https://doi.org/<https://doi.org/10.1016/j.sbspro.2014.09.131>.

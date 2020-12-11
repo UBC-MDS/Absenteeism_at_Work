@@ -1,7 +1,4 @@
 ---
-
-title: "Absenteeism Hours Predictor"
-author: DSCI 522 Group 21
 output: github_document
 bibliography: doc/absenteeism_refs.bib
 
@@ -9,19 +6,19 @@ bibliography: doc/absenteeism_refs.bib
 
 # Absenteeism Hours Predictor
 
-- author: DSCI 522 Group 21
+- Author: MDS DSCI 522 Group 21
 
-### About
+## About
 
-In this project we built three machine learning models, which are randomforest regressor, supporting vector machine regressor with linear kernel and ridge regressor, to make predictions on absenteeism time in hours from "Absenteeism at work" dataset. There are 20 features from the origin dataset and we are using 19 of them after dropping "ID". After extracting the categorical features with one-hot-encoder, we got 64 features. Our regressors did not perform a very good $R^2$ score nor a very low mean square error even though we applied recursive feature elimination. From feature selection, we found that the most impactful feature is "Reason for absence". There are 515 training data cases and 222 test cases, the best validation $R^2$ score we got is 0.09 from ridge regressor, and the other 2 validation scores are 0.05 from supporting vector machine regressor with linear kernel and -0.2 from random forest regressor. So we used ridge regression on the test data and our test score is 0.085. Our unsatisfied prediction results may affect the decision and judgement that an employer make while dealing with absenteeism among the employees. So we suggest that more methods on feature selection and machine learning models can be applied on this data set to improve the prediction results in order to lead to the correct direction for employers on absenteeism issues.
+In this project, we built three machine learning regressor models: `random forest regressor`, `support vector machine regressor with linear kernel` and `ridge regressor` to make predictions on absenteeism time in hours from the "Absenteeism at work" dataset. Our final model `support vector machine regressor with linear kernel` performed a decent job on an unseen test data set, with `negative RMSE` score of -5.966. On 222 test data cases, the average hours that our model missed to predict is 5.966 hours, which is not bad at all. However, in both the train and test dataset, our predictor tends to over predict when the actual absenteeism hours are low and under predict in the case of actual absenteeism hours are high. Since our prediction results may affect the decision and judgement that an employer makes when dealing with absenteeism among employees, we suggest that more sophisticated approaches on machine learning algorithm and feature selection should be conducted to improve the prediction model before it is being used to direct on absenteeism issues at the workplace.
 
 Our data set is chosen from the UCI Machine Learning Repository called "Absenteeism at work Data Set". The data set can be found [here](https://archive.ics.uci.edu/ml/datasets/Absenteeism+at+work#) and it is created by Andrea Martiniano, Ricardo Pinto Ferreira, and Renato Jose Sassi from Postgraduate Program in Informatics and Knowledge Management at Nove de Julho University, Rua Vergueiro[@data]. The data was collected at a courier company in Brazil and the database includes the monthly records of absenteeism of 36 different workers over three years, starting from July 2007, and how their changes affect their absence rate over time. This data set contains 740 instances with 21 attributes, including 8 categorical and 11 numerical features (excluding the target `Absenteeism time in hours` and the drop feature `ID`). Each row represents information about an employee with his/her situations of absence, family, workload, and other factors that might be related to his/her absence at work. Out of the considered attributes, the absenteeism in hours is the target to predict with the provided information, and the features are:
 
--   **ID** (feature that will be dropped): Individual Identification of each employee. There are 36 distinct individuals.
+-   **ID** (this will be dropped): Individual Identification of each employee. There are 36 distinct individuals.
 
 -   **Reason for absence** (categorical feature): Justification for the registered absence hours of each employee.
 
--   **Month of absence** (categorical feature): The month in which the absentee time is registered.
+-   **Month of absence** (this will be dropped): The month in which the absentee time is registered.
 
 -   **Day of the week** (categorical feature): The five business days of the week.
 
@@ -31,7 +28,7 @@ Our data set is chosen from the UCI Machine Learning Repository called "Absentee
 
 -   **Distance from residence to work** (numeric feature): Distance covered by each employee daily in kilometers.
 
--   **Service Time** (numeric feature): Service time of each employee in years.
+-   **Service Time** (this will be dropped): Service time of each employee in years.
 
 -   **Age** (numeric feature): Age of each employee in years.
 
@@ -39,7 +36,7 @@ Our data set is chosen from the UCI Machine Learning Repository called "Absentee
 
 -   **Hit target** (numeric feature): achievement percentage (%) of periodic goals for each employee.
 
--   **Disciplinary failure** (binary feature): Whether or not the employee received a disciplinary warning that month.
+-   **Disciplinary failure** (this will be dropped): Whether or not the employee received a disciplinary warning that month.
 
 -   **Education** (ordinal feature): Level of education of each employee.
 
@@ -55,72 +52,59 @@ Our data set is chosen from the UCI Machine Learning Repository called "Absentee
 
 -   **Height** (numeric feature): Height of each employee in centimeters.
 
--   **Body Mass Index** (numeric feature): Body mass percentage (%) of each employee.
+-   **Body Mass Index** (this will be dropped): Body mass percentage (%) of each employee.
 
 
-### Report
+## Report
 
-The final report can be found here.
+The final report can be found [here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/UBC-MDS/dsci-522_group-21/main/doc/absenteeism_predict_report.html)
 
 
-### Usage
+## Usage
 
-The replication of this project can be done by installing the following dependencies and running the following command from the root directory of this project to unzip the data:
+To replicate the analysis, clone this GitHub repository, install the dependencies listed below, and run the following command at the command line/terminal from the root directory of this project:
 
 ```
-# Using R to download data:
-Rscript  script/download_data.R --url="https://archive.ics.uci.edu/ml/machine-learning-databases/00445/Absenteeism_at_work_AAA.zip"
-
-# or, alternatively using Python to download data:
-python  script/download_data.py --url="https://archive.ics.uci.edu/ml/machine-learning-databases/00445/Absenteeism_at_work_AAA.zip" --out_path="data"
-
-# load, clean and save the data
-python  script/read_clean_split.py --input="data/Absenteeism_at_work.csv" --out_dir="results"
-
-# create exploratory data analysis
-Rscript script/eda.R --train="results/train_df.feather" --out_dir="results"
-
-# pre-process the data
-python script/preprocessing_machine_learning.py --input_train="results/train_df.feather" --out_dir="results"
-
-# fit the models and get test results from the best model
-python script/machine_learning_model.py --input_train="results/train_df.feather" --input_test="results/test_df.feather" --input_processor="results/processor.pickle" --out_dir="results"
-
-# render the report
-
+make all
 
 ```
 
-### Dependencies
+To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/terminal from the root directory of this project:
 
--   ipykernel
+```
+make clean
 
--   matplotlib\>=3.2.2
+```
 
--   scikit-learn\>=0.23.2
+## Dependencies
 
--   pandas\>=1.1.3
+* Python 3.7.3 and Python packages:
 
--   requests\>=2.24.0
+  + docopt==0.6.2
 
--   graphviz
+  + pandas==0.24.2
 
--   python-graphviz
+  + feather-format==0.4.0
+  
+  + scikit-learn\>=0.23.2
+  
+  + requests==2.22.0
+  
+  + seaborn==0.8.1
+  
+* R version 3.6.1 and R packages:
 
--   altair\>=4.1.0
+  + tidyverse==1.2.1
 
--   jinja2
+  + knitr==1.26
+  
+  + feather==0.3.5
+  
+  + dplyr==1.0.2
+  
+  + ggcorrplot==0.1.3
+  
+  + ggthemes==4.2.0
+  
 
--   pip\>=20
-
--   pandas-profiling\>=1.4.3
-
-* pip:
-
-  + psutil\>=5.7.2
-
-  + xgboost\>=1.\*
-
-  + lightgbm\>=3.\*
-
-### References
+# References

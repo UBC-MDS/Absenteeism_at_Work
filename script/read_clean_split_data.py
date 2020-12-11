@@ -7,7 +7,7 @@ a 70 : 30 train test split.
 Usage: read_clean_split_data.py --input=<input> --out_dir=<out_dir> 
 
 Options:
---input=<input>                      The path of the raw data csv file
+--input=<input>          The path of the raw data csv file
 --out_dir=<out_dir>      Path to directory where the processed dataframes should be written
 """
 
@@ -33,9 +33,10 @@ def main(input, out_dir):
   data['Education'] = data['Education'].astype('category')
   data['Month of absence'] = data['Month of absence'].astype('category')
   data['Reason for absence'] = data['Reason for absence'].astype('category')
+  data['Day of the week'] = data['Day of the week'].astype('category')
   unuseful_idx = (data[data["Month of absence"] == 0]).index.tolist()
   data = data.drop(unuseful_idx)
-
+  
   
   # split the data
   train_df, test_df = train_test_split(data, test_size=0.3, random_state=123)

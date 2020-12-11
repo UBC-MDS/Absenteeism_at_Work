@@ -3,7 +3,8 @@
 
 "Creates eda plots for the pre-processed training data from the absenteeism data.
 Saves the tables and plots as a feather and png files.
-Usage: src/eda.r --train=<train> --out_dir=<out_dir>
+
+Usage: eda.R --train=<train> --out_dir=<out_dir>
   
 Options:
 --train=<train>     Path (including filename) to training data (which needs to be saved as a feather file)
@@ -12,13 +13,10 @@ Options:
 
 library(feather)
 library(tidyverse)
-library(caret)
 library(docopt)
 library(ggthemes)
 theme_set(theme_minimal())
-library(reshape2)
 library(ggplot2)
-library(janitor)
 library(dplyr)
 library(ggcorrplot)
 
@@ -38,11 +36,13 @@ main <- function(train, out_dir) {
   train_data_copy$Seasons <- as.numeric(as.character(train_data_copy$Seasons))
   train_data_copy$`Month of absence` <- as.numeric(as.character(train_data_copy$`Month of absence`))
   train_data_copy$`Reason for absence` <- as.numeric(as.character(train_data_copy$`Reason for absence`))
+  train_data_copy$`Day of the week` <- as.numeric(as.character(train_data_copy$`Day of the week`))
   
   corr_matrix <- train_data_copy %>% 
     select(-ID) %>% 
     cor() %>% 
-    ggcorrplot()
+    ggcorrplot() +
+    theme(text =  element_text(size = 20))
   
   # save the correlation matrix plot
   ggsave(paste0(out_dir, "/correlation_matrix.png"), 
@@ -56,7 +56,8 @@ main <- function(train, out_dir) {
     pivot_longer(everything()) %>%
     ggplot(aes(x=value)) +
     geom_histogram(bins = 50, fill = "blue") +
-    facet_wrap(~name, ncol = 4, scales = 'free')
+    facet_wrap(~name, ncol = 4, scales = 'free') +
+    theme(text =  element_text(size = 12))
   
   # save the distribution plot
   ggsave(paste0(out_dir, "/distribution_plot.png"),
@@ -113,13 +114,14 @@ main <- function(train, out_dir) {
           panel.grid.minor.y = element_blank(),
           axis.title.y=element_blank(),
           legend.position = "none",
-          plot.title = element_text(size=22))
+          plot.title = element_text(size=22),
+          text =  element_text(size = 18)) 
   
   
   # save the frequency plot
   ggsave(paste0(out_dir, "/frequency_plot.png"),
          frequency_plot,
-         width = 15,
+         width = 20,
          height = 10)
 
 }
