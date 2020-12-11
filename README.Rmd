@@ -1,8 +1,10 @@
 ---
+
 title: "Absenteeism Hours Predictor"
 author: DSCI 522 Group 21
-output: md_document
+output: github_document
 bibliography: doc/absenteeism_refs.bib
+
 ---
 
 # Absenteeism Hours Predictor
