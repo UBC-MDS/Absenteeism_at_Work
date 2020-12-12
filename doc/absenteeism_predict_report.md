@@ -3,39 +3,56 @@ Predicting absenteeism hours at work from different features
 MDS DSCI 522 Group 21
 27/11/2020
 
-Summary
-=======
+  - [Summary](#summary)
+  - [Introduction](#introduction)
+  - [Data](#data)
+  - [Methods](#methods)
+      - [Analysis tools](#analysis-tools)
+      - [Preliminary data Analysis](#preliminary-data-analysis)
+      - [Data preprocessing and
+        transforming](#data-preprocessing-and-transforming)
+      - [Prediction models & evaluation
+        metric](#prediction-models-evaluation-metric)
+  - [Prediction results](#prediction-results)
+      - [Cross validation](#cross-validation)
+      - [Feature selection & hyperparameter
+        tuning](#feature-selection-hyperparameter-tuning)
+      - [Test result](#test-result)
+  - [Discussions](#discussions)
+      - [Critique](#critique)
+      - [Future directions](#future-directions)
+  - [References](#references)
+
+# Summary
 
 > In this project, we are trying to address the following **predictive
 > question**:
 
-> Based on some given information of an employee, regarding personal,
-> working and health ambits, how many hours of absence would be expected
-> from that employee?
+> Based on some given information of an employee, including personal,
+> working and health situations, how many hours of absence would be
+> expected from that employee?
 
-In this project, we built three machine learning regressor models:
-`random forest regressor`,
-`support vector machine regressor with linear kernel` and
-`ridge regressor` to make predictions on absenteeism time in hours from
-the “Absenteeism at work” dataset.
+In this project, we built three machine learning regression models:
+`random forest regressor`, `support vector machine regressor with linear
+kernel` and `ridge regressor` to make predictions on absenteeism time in
+hours from the “Absenteeism at work” dataset.
 
 Our final model `support vector machine regressor with linear kernel`
 performed a decent job on an unseen test data set, with `negative RMSE`
 score of -5.966. On 222 test data cases, the average hours that our
 model missed to predict is 5.966 hours, which is not bad at all.
-However, in both the train and test dataset, our predictor tends to over
-predict when the actual absenteeism hours are low and under predict in
-the case of actual absenteeism hours are high.
+However, on both the train and test data, our prediction model tends to
+over predict when the actual absenteeism hours are low and under predict
+in the case of actual absenteeism hours are high.
 
-Since our prediction results may affect the decision and judgement that
+Since our prediction results may affect the decision and judgment that
 an employer makes when dealing with absenteeism among employees, we
 suggest that more sophisticated approaches on machine learning algorithm
 and feature selection should be conducted to improve the prediction
 model before it is being used to direct on absenteeism issues at the
 workplace.
 
-Introduction
-============
+# Introduction
 
 Absenteeism in the workplace is the habitual absence behavior from work
 without a valid reason(“2016 Absence Management Annual Survey Report”
@@ -55,8 +72,7 @@ absenteeism. If employers can use the results to predict absenteeism
 among employees, they can make effective plans in advance to deal with
 the upcoming problems and reduce extra costs caused by absenteeism.
 
-Data
-====
+# Data
 
 We chose a data set from the UCI Machine Learning Repository called
 “Absenteeism at work Data Set”. The data set can be found
@@ -70,15 +86,14 @@ monthly records of absenteeism of 36 different workers over three years,
 starting from July 2007, and how their changes affect their absence rate
 over time. This data set contains 740 instances with 21 attributes,
 including 6 categorical and 9 numerical features (excluding the target
-`Absenteeism time in hours` and the drop feature `ID`,
-`Disciplinary failure`, `Body mass index`, `Service time`, and
-`Month of absence`). Each row represents information about an employee’s
-situations of absence, family, workload, and other factors that might be
-related to absence at work. Out of the considered attributes, the
-absenteeism in hours is our prediction target.
+`Absenteeism time in hours` and the drop feature `ID`, `Disciplinary
+failure`, `Body mass index`, `Service time`, and `Month of absence`).
+Each row represents information about an employee’s situations of
+absence, family, workload, and other factors that might be related to
+absence at work. Out of the considered attributes, the absenteeism in
+hours is our prediction target.
 
-Methods
-=======
+# Methods
 
 ### Analysis tools
 
@@ -104,47 +119,93 @@ training data only:
 
 From figure 1, We observed that there are some considerable correlations
 between features, as well as there is some correlations between the
-target and respective features. For example, `Disciplinary failure` and
-`Reason for absence`; `Hit target` and `Month of absence`;
-`body mass index` and `weight`; `weight` and `service time` seem to be
-highly correlated features. As a result, we decided to drop the
-`Disciplinary failure`, `Body mass index`, `Service time`, and
-`Month of absence` features to better deal with multicollinearity
-issues.
+target `Absenteeism time in hours` and respective features.
+
+  - The correlation matrix exposes that `Reason for absence`, `Day of
+    the week`, `Height`, whether the employee had a `Disciplinary
+    failure` that month, whether the worker considers him/herself a
+    `Social drinker`, the `Distance from residence to work` and the
+    `number of children` are the most influential features over the
+    target `Absenteeism time in hours`.
+
+  - Furthermore, `Disciplinary failure` and `Reason for absence`; `Hit
+    target` and `Month of absence`; `Body mass index` and `Weight`;
+    `Weight` and `Service time` seem to be highly correlated features.
+    As a result, we decided to drop the `Disciplinary failure`, `Body
+    mass index`, `Service time`, and `Month of absence` features to
+    better deal with multicollinearity issues.
 
 <div class="figure">
 
 <img src="../results/correlation_matrix.png" alt="Figure 1. Correlation matrix between all features and the target" width="100%" />
+
 <p class="caption">
+
 Figure 1. Correlation matrix between all features and the target
+
 </p>
 
 </div>
 
-We looked into the distributions (figure 2) of each feature and the
-target and we detect many outliers in the target. Therefore, in both of
-our train and test data, we removed some extreme outliers.
+We looked into the distributions (figure 2) of all attributes, including
+the target `Absenteeism time in hours` and we detected many outliers in
+the target. Therefore, in both of our train and test data, we removed
+some extreme outliers.
+
+  - At first glance, we observe that the target column has a
+    considerable number of outliers. Although the mean absent hours per
+    month of a worker is around 7 hours, there is a noteworthy amount of
+    instances where the number of absent hours surpasses 20 hours per
+    month, and even reaching a 120-hour mark.
+
+  - Although initially, one would imagine that the season of the year
+    would considerably affect the absence rate, all the weather seasons
+    (and consequently the months) have almost the same number of
+    observations. Nonetheless, the day of the week is quite crucial for
+    understanding the absence behavior. Of the five business days,
+    Tuesday has the biggest amount of absences.
+
+  - There are three bizarre instances where there was a zero month
+    reported causing this categorical feature to possess 13 different
+    classes. These specific cases are going to be ignored as they lack
+    any possible interpretation.
+
+  - `Disciplinary failure`, `Social smoker` and `Education` level
+    present a substantial class imbalance. Most of the workers that
+    participated in the study have reached high school education by the
+    end of it. Furthermore, only 27 of the over 500 subjects underwent
+    disciplinary failure before the study. Finally, only 4% of the test
+    subject are social smokers.
 
 <div class="figure">
 
 <img src="../results/distribution_plot.png" alt="Figure 2. Frequency distributions for all features and the target" width="100%" />
+
 <p class="caption">
+
 Figure 2. Frequency distributions for all features and the target
+
 </p>
 
 </div>
 
-We examined the distribution for the particular feature
-`Reason of Absence` (figure 3), which has one of the relatively highest
-correlation with the target, and observe that justifications 22 (medical
-consultation) and 27 (Dental Consultation) are the most common, causing
-the reasons for absence in 191 out of the 508 observations taken.
+We examined the distribution for the particular feature `Reason of
+Absence` (figure 3), which has one of the relatively highest correlation
+with the target, and observe that justifications `Medical consultation`
+and `Dental Consultation` are the most common, causing the reasons for
+absence in 191 out of the 508 observations taken. In addition, the mean
+number of occurrences for all `Reasons for absense` is around 20, which
+is much smaller than the most common occurrences, implying that we have
+quite a few outliers in `Reasons for absense` occurrences.
 
 <div class="figure">
 
 <img src="../results/frequency_plot.png" alt="Figure 3. Reasons of Absence feature distribution" width="100%" />
+
 <p class="caption">
+
 Figure 3. Reasons of Absence feature distribution
+
 </p>
 
 </div>
@@ -166,53 +227,52 @@ Post EDA, we are ready to use supervised machine learning models to
 perform prediction and to obtain the most suitable algorithm for our
 Abseentism prediction task. The models we chose are:
 
--   `support vector machine with linear kernel` - we chose this model
+  - `support vector machine with linear kernel` - we chose this model
     for its accuracy when a considerable amount of features are
     utilized.
 
--   `ridge regressor` - we selected this model to better deal with
+  - `ridge regressor` - we selected this model to better deal with
     multicollinearity between the features.
 
--   `random forest regressor` - we chose this model for its efficiency
+  - `random forest regressor` - we chose this model for its efficiency
     and easiness to view relative feature importance.
 
-For evaluation metric, both *R*<sup>2</sup> score and
-`negative root mean squared error` (`negative RMSE`) are used to assess
-how these models perform. Specifically, *R*<sup>2</sup> measures how
-well the models adapt and represent the training data, with 1 being
-making a perfect prediction and 0 being not having any predicting power;
-whereas `negative RMSE` measures how many absenteeism hours our
-prediction model misses in the validation / test data set. More
-importantly, we will focus on the `negative RMSE` because this
-measurement matters to our prediction task the most.
+For evaluation metric, both \(R^2\) score and `negative root mean
+squared error` (`negative RMSE`) are used to assess how these models
+perform. Specifically, \(R^2\) measures how well the models adapt and
+represent the training data, with 1 being making a perfect prediction
+and 0 being not having any predicting power; whereas `negative RMSE`
+measures how many absenteeism hours our prediction model misses in the
+validation / test data set. More importantly, we will focus on the
+`negative RMSE` because this measurement matters to our prediction task
+the most.
 
-Prediction results
-==================
+# Prediction results
 
 ### Cross validation
 
 First, We performed cross validation on the train data set with 5
 cross-validation folds using all 3 machine learning models. Table 1
-shows the default mean cross-validation (cv) and train *R*<sup>2</sup>
-and `negative RMSE` scores for each machine learning model. The key
-takeaway from this table is that the
-`support vector machine with linear kernel` model seems to be a good
-candidate predictor model with least overfitting issues and similar
-`negative RMSE` mean cv scores of around -5.35 to its peer models.
+shows the default mean cross-validation (cv) and train \(R^2\) and
+`negative RMSE` scores for each machine learning model. The key takeaway
+from this table is that the `support vector machine with linear kernel`
+model seems to be a good candidate predictor model with least
+overfitting issues and similar `negative RMSE` mean cv scores of around
+-5.35 to its peer models.
 
 Given these closely performing `negative RMSE` mean cv scores across all
 three models, we proceed with feature selection to try to filter down
 the most suitable model to use along with its associated most important
 features.
 
-| index                                      | Linear SVM |      Ridge | Random Forest |
-|:-------------------------------------------|-----------:|-----------:|--------------:|
-| fit\_time                                  |  0.1204071 |  0.0659957 |     1.2993999 |
-| score\_time                                |  0.0345930 |  0.0310109 |     0.0534021 |
-| validation\_r2                             |  0.2160269 |  0.2446704 |     0.2022706 |
-| train\_r2                                  |  0.2452374 |  0.3383638 |     0.8751218 |
-| validation\_neg\_root\_mean\_square\_error | -5.3488568 | -5.2467506 |    -5.3669521 |
-| train\_neg\_root\_mean\_square\_error      | -5.2730458 | -4.9366837 |    -2.1426097 |
+| index                                      |  Linear SVM |       Ridge | Random Forest |
+| :----------------------------------------- | ----------: | ----------: | ------------: |
+| fit\_time                                  |   0.0866537 |   0.0827685 |     0.8593893 |
+| score\_time                                |   0.0208205 |   0.0184096 |     0.0303370 |
+| validation\_r2                             |   0.2160269 |   0.2446704 |     0.2022706 |
+| train\_r2                                  |   0.2452374 |   0.3383638 |     0.8751218 |
+| validation\_neg\_root\_mean\_square\_error | \-5.3488568 | \-5.2467506 |   \-5.3669521 |
+| train\_neg\_root\_mean\_square\_error      | \-5.2730458 | \-4.9366837 |   \-2.1426097 |
 
 Table 1. Default mean cross validation negative root mean squared error
 & R-square scores of all three machine learning models
@@ -221,22 +281,21 @@ Table 1. Default mean cross validation negative root mean squared error
 
 We used recursive feature elimination and cross-validated selection
 (`RFECV`) on the 3 machine learning models and we performed
-cross-validation (cv) again. Table 2 shows the mean cv and train
-*R*<sup>2</sup> and `negative RMSE` scores based on the most important
-features selected associated with each of the 3 models. The key takeaway
-from this table is that the `support vector machine with linear kernel`
-model seems to be the best predictor model with least overfitting issues
-and this time a better `negative RMSE` mean cv scores of -5.25 than its
-peer models.
+cross-validation (cv) again. Table 2 shows the mean cv and train \(R^2\)
+and `negative RMSE` scores based on the most important features selected
+associated with each of the 3 models. The key takeaway from this table
+is that the `support vector machine with linear kernel` model seems to
+be the best predictor model with least overfitting issues and this time
+a better `negative RMSE` mean cv scores of -5.25 than its peer models.
 
-| index                                      | Linear SVM |      Ridge | Random Forest |
-|:-------------------------------------------|-----------:|-----------:|--------------:|
-| fit\_time                                  |  3.1549056 |  2.9064684 |     3.3588285 |
-| score\_time                                |  0.0187016 |  0.0183062 |     0.0375952 |
-| validation\_r2                             |  0.2441726 |  0.2245500 |     0.1782126 |
-| train\_r2                                  |  0.2572283 |  0.3161027 |     0.4830969 |
-| validation\_neg\_root\_mean\_square\_error | -5.2457038 | -5.3154618 |    -5.4566107 |
-| train\_neg\_root\_mean\_square\_error      | -5.2308771 | -5.0185697 |    -4.3339998 |
+| index                                      |  Linear SVM |       Ridge | Random Forest |
+| :----------------------------------------- | ----------: | ----------: | ------------: |
+| fit\_time                                  |   3.8050409 |   5.8030137 |     7.5937326 |
+| score\_time                                |   0.0262539 |   0.0372037 |     0.0353937 |
+| validation\_r2                             |   0.2441726 |   0.2245500 |     0.1782126 |
+| train\_r2                                  |   0.2572283 |   0.3161027 |     0.4830969 |
+| validation\_neg\_root\_mean\_square\_error | \-5.2457038 | \-5.3154618 |   \-5.4566107 |
+| train\_neg\_root\_mean\_square\_error      | \-5.2308771 | \-5.0185697 |   \-4.3339998 |
 
 Table 2. Feature selection mean cross validation negative root mean
 squared error & R-square scores of all three machine learning models
@@ -255,7 +314,7 @@ hyperparameters given are gamma of 0.1 and C of 1, while hyperparameter
 tuning did not improve further our -5.25 `negative RMSE` mean cv scores.
 
 | Features                                                                                 | Coefficient Magnitudes |
-|:-----------------------------------------------------------------------------------------|-----------------------:|
+| :--------------------------------------------------------------------------------------- | ---------------------: |
 | Reason for absence\_Unknown                                                              |              7.2248159 |
 | Reason for absence\_Physiotherapy                                                        |              5.0253065 |
 | Reason for absence\_Medical consultation                                                 |              5.0250530 |
@@ -280,11 +339,11 @@ under support vector machine linear regressor prediction model
 
 ### Test result
 
-Now we are ready to use our final prediction model
-`support vector machine with linear kernel` on our test data set. The
-final test `negative RMSE` score is -5.966, which is very close to the
-cross validation scores we got previously, which is a good indicator
-that our model generalizes well on the unseen test set.
+Now we are ready to use our final prediction model `support vector
+machine with linear kernel` on our test data set. The final test
+`negative RMSE` score is -5.966, which is very close to the cross
+validation scores we got previously, which is a good indicator that our
+model generalizes well on the unseen test set.
 
 Lastly, we included the residual plot in Figure 4, which shows the
 residuals of our predictions on Y axis and all the actual test targets
@@ -296,26 +355,28 @@ absence from a worker with some errors.
 <div class="figure">
 
 <img src="../results/residual_plot.png" alt="Figure 4. Prediction residuals vs actual test target values" width="100%" />
+
 <p class="caption">
+
 Figure 4. Prediction residuals vs actual test target values
+
 </p>
 
 </div>
 
-Discussions
-===========
+# Discussions
 
 ### Critique
 
 There are limitations and assumptions associated with our prediction
 task:
 
--   The dataset is collected from one single courier company in Brazil,
+  - The dataset is collected from one single courier company in Brazil,
     which means that the data might not be independent and
     representative of the population that we are interested in
     predicting.
 
--   From the preliminary data analysis, we see that there is no strong
+  - From the preliminary data analysis, we see that there is no strong
     correlation between each single feature and the target, which is a
     signal that there might not be a great representation of target from
     the given features. There are obvious multicollinearity in between
@@ -323,7 +384,7 @@ task:
     learning models, and this might not have been the best approach to
     deal with multicollinearity.
 
--   In addition, from the frequency distributions, there are many
+  - In addition, from the frequency distributions, there are many
     outliers in our target, so we decided on removing some prior to
     training our models, which also might not have been the most
     effective way to deal with outliers, and could potentially make our
@@ -340,10 +401,9 @@ multicollinear data and outlier data; 2. find and use a more
 representative and independent dataset that could better represent the
 population to perform analysis and prediction on.
 
-References
-==========
+# References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references">
 
 <div id="ref-CIPD">
 
