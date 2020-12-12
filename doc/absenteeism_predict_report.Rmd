@@ -4,7 +4,7 @@ author: MDS DSCI 522 Group 21
 date: "27/11/2020"
 always_allow_html: true
 output: 
-  html_document:
+  github_document:
     toc: true
 bibliography: absenteeism_refs.bib
 ---
