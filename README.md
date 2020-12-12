@@ -140,6 +140,10 @@ root directory of this project:
 
     make clean
 
+#### Dependency Diagram of the Makefile
+
+<img src="Makefile.png" width="3870" />
+
 ## Dependencies
 
   - Python 3.7.9 and Python packages:
