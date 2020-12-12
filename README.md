@@ -5,7 +5,7 @@
 
 ## About
 
-In this project, we built three machine learning regressor models:
+In this project, we built three machine learning regression models:
 `random forest regressor`, `support vector machine regressor with linear
 kernel` and `ridge regressor` to make predictions on absenteeism time in
 hours from the “Absenteeism at work” dataset. Our final model `support
@@ -33,12 +33,13 @@ collected at a courier company in Brazil and the database includes the
 monthly records of absenteeism of 36 different workers over three years,
 starting from July 2007, and how their changes affect their absence rate
 over time. This data set contains 740 instances with 21 attributes,
-including 8 categorical and 11 numerical features (excluding the target
-`Absenteeism time in hours` and the drop feature `ID`). Each row
-represents information about an employee with his/her situations of
-absence, family, workload, and other factors that might be related to
-his/her absence at work. Out of the considered attributes, the
-absenteeism in hours is the target to predict with the provided
+including 8 categorical and 9 numerical features (excluding the target
+`Absenteeism time in hours` and the drop feature `ID`, `Disciplinary
+failure`, `Body mass index`, `Service time`, and `Month of absence`).
+Each row represents information about an employee with his/her
+situations of absence, family, workload, and other factors that might be
+related to his/her absence at work. Out of the considered attributes,
+the absenteeism in hours is the target to predict with the provided
 information, and the features are:
 
   - **ID** (this will be dropped): Individual Identification of each
@@ -104,9 +105,32 @@ The final report can be found
 
 ## Usage
 
+There are two suggested ways to run this analysis:
+
+#### 1\. Using Docker
+
+*note - the instructions in this section also depends on running this in
+a unix shell (e.g., terminal or Git Bash)*
+
+To replicate the analysis, install
+[Docker](https://www.docker.com/get-started). Then clone this GitHub
+repository and run the following command at the command line/terminal
+from the root directory of this project:
+
+    docker run --rm -v /$(pwd):/home/rstudio/project yikisu/absenteeism_project:latest make directory=/home/rstudio/project all
+
+To reset the repo to a clean state, with no intermediate or results
+files, run the following command at the command line/terminal from the
+root directory of this project:
+
+    docker run --rm -v /$(pwd):/home/rstudio/project yikisu/absenteeism_project:latest make directory=/home/rstudio/project clean
+
+#### 2\. Without using Docker
+
 To replicate the analysis, clone this GitHub repository, install the
-dependencies listed below, and run the following command at the command
-line/terminal from the root directory of this project:
+[dependencies](#dependencies) listed below, and run the following
+command at the command line/terminal from the root directory of this
+project:
 
     make all
 
@@ -116,27 +140,33 @@ root directory of this project:
 
     make clean
 
+#### Dependency Diagram of the Makefile
+
+<img src="Makefile.png" width="3870" />
+
 ## Dependencies
 
-  - Python 3.7.3 and Python packages:
+  - Python 3.7.9 and Python packages:
+    
+      - pyarrow==0.15.1
     
       - docopt==0.6.2
     
       - pandas==0.24.2
     
-      - feather-format==0.4.0
+      - feather-format==0.4.1
     
       - scikit-learn\>=0.23.2
     
-      - requests==2.22.0
+      - requests==2.25.0
     
-      - seaborn==0.8.1
+      - seaborn==0.11.0
 
-  - R version 3.6.1 and R packages:
+  - R version 4.0.2 and R packages:
     
-      - tidyverse==1.2.1
+      - tidyverse==1.3.0
     
-      - knitr==1.26
+      - knitr==1.29
     
       - feather==0.3.5
     
@@ -145,6 +175,8 @@ root directory of this project:
       - ggcorrplot==0.1.3
     
       - ggthemes==4.2.0
+
+  - GNU make 4.2.1
 
 # References
 

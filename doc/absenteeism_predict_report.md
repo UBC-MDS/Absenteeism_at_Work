@@ -3,16 +3,36 @@ Predicting absenteeism hours at work from different features
 MDS DSCI 522 Group 21
 27/11/2020
 
+  - [Summary](#summary)
+  - [Introduction](#introduction)
+  - [Data](#data)
+  - [Methods](#methods)
+      - [Analysis tools](#analysis-tools)
+      - [Preliminary data Analysis](#preliminary-data-analysis)
+      - [Data preprocessing and
+        transforming](#data-preprocessing-and-transforming)
+      - [Prediction models & evaluation
+        metric](#prediction-models-evaluation-metric)
+  - [Prediction results](#prediction-results)
+      - [Cross validation](#cross-validation)
+      - [Feature selection & hyperparameter
+        tuning](#feature-selection-hyperparameter-tuning)
+      - [Test result](#test-result)
+  - [Discussions](#discussions)
+      - [Critique](#critique)
+      - [Future directions](#future-directions)
+  - [References](#references)
+
 # Summary
 
 > In this project, we are trying to address the following **predictive
 > question**:
 
-> Based on some given information of an employee, regarding personal,
-> working and health ambits, how many hours of absence would be expected
-> from that employee?
+> Based on some given information of an employee, including personal,
+> working and health situations, how many hours of absence would be
+> expected from that employee?
 
-In this project, we built three machine learning regressor models:
+In this project, we built three machine learning regression models:
 `random forest regressor`, `support vector machine regressor with linear
 kernel` and `ridge regressor` to make predictions on absenteeism time in
 hours from the “Absenteeism at work” dataset.
@@ -21,11 +41,11 @@ Our final model `support vector machine regressor with linear kernel`
 performed a decent job on an unseen test data set, with `negative RMSE`
 score of -5.966. On 222 test data cases, the average hours that our
 model missed to predict is 5.966 hours, which is not bad at all.
-However, in both the train and test dataset, our predictor tends to over
-predict when the actual absenteeism hours are low and under predict in
-the case of actual absenteeism hours are high.
+However, on both the train and test data, our prediction model tends to
+over predict when the actual absenteeism hours are low and under predict
+in the case of actual absenteeism hours are high.
 
-Since our prediction results may affect the decision and judgement that
+Since our prediction results may affect the decision and judgment that
 an employer makes when dealing with absenteeism among employees, we
 suggest that more sophisticated approaches on machine learning algorithm
 and feature selection should be conducted to improve the prediction
@@ -99,12 +119,21 @@ training data only:
 
 From figure 1, We observed that there are some considerable correlations
 between features, as well as there is some correlations between the
-target and respective features. For example, `Disciplinary failure` and
-`Reason for absence`; `Hit target` and `Month of absence`; `body mass
-index` and `weight`; `weight` and `service time` seem to be highly
-correlated features. As a result, we decided to drop the `Disciplinary
-failure`, `Body mass index`, `Service time`, and `Month of absence`
-features to better deal with multicollinearity issues.
+target `Absenteeism time in hours` and respective features.
+
+  - The correlation matrix exposes that `Reason for absence`, `Day of
+    the week`, `Height`, whether the employee had a `Disciplinary
+    failure` that month, whether the worker considers him/herself a
+    `Social drinker`, the `Distance from residence to work` and the
+    `number of children` are the most influential features over the
+    target `Absenteeism time in hours`.
+
+  - Furthermore, `Disciplinary failure` and `Reason for absence`; `Hit
+    target` and `Month of absence`; `Body mass index` and `Weight`;
+    `Weight` and `Service time` seem to be highly correlated features.
+    As a result, we decided to drop the `Disciplinary failure`, `Body
+    mass index`, `Service time`, and `Month of absence` features to
+    better deal with multicollinearity issues.
 
 <div class="figure">
 
@@ -118,9 +147,35 @@ Figure 1. Correlation matrix between all features and the target
 
 </div>
 
-We looked into the distributions (figure 2) of each feature and the
-target and we detect many outliers in the target. Therefore, in both of
-our train and test data, we removed some extreme outliers.
+We looked into the distributions (figure 2) of all attributes, including
+the target `Absenteeism time in hours` and we detected many outliers in
+the target. Therefore, in both of our train and test data, we removed
+some extreme outliers.
+
+  - At first glance, we observe that the target column has a
+    considerable number of outliers. Although the mean absent hours per
+    month of a worker is around 7 hours, there is a noteworthy amount of
+    instances where the number of absent hours surpasses 20 hours per
+    month, and even reaching a 120-hour mark.
+
+  - Although initially, one would imagine that the season of the year
+    would considerably affect the absence rate, all the weather seasons
+    (and consequently the months) have almost the same number of
+    observations. Nonetheless, the day of the week is quite crucial for
+    understanding the absence behavior. Of the five business days,
+    Tuesday has the biggest amount of absences.
+
+  - There are three bizarre instances where there was a zero month
+    reported causing this categorical feature to possess 13 different
+    classes. These specific cases are going to be ignored as they lack
+    any possible interpretation.
+
+  - `Disciplinary failure`, `Social smoker` and `Education` level
+    present a substantial class imbalance. Most of the workers that
+    participated in the study have reached high school education by the
+    end of it. Furthermore, only 27 of the over 500 subjects underwent
+    disciplinary failure before the study. Finally, only 4% of the test
+    subject are social smokers.
 
 <div class="figure">
 
@@ -136,9 +191,12 @@ Figure 2. Frequency distributions for all features and the target
 
 We examined the distribution for the particular feature `Reason of
 Absence` (figure 3), which has one of the relatively highest correlation
-with the target, and observe that justifications 22 (medical
-consultation) and 27 (Dental Consultation) are the most common, causing
-the reasons for absence in 191 out of the 508 observations taken.
+with the target, and observe that justifications `Medical consultation`
+and `Dental Consultation` are the most common, causing the reasons for
+absence in 191 out of the 508 observations taken. In addition, the mean
+number of occurrences for all `Reasons for absense` is around 20, which
+is much smaller than the most common occurrences, implying that we have
+quite a few outliers in `Reasons for absense` occurrences.
 
 <div class="figure">
 
@@ -209,8 +267,8 @@ features.
 
 | index                                      |  Linear SVM |       Ridge | Random Forest |
 | :----------------------------------------- | ----------: | ----------: | ------------: |
-| fit\_time                                  |   0.1066745 |   0.0889295 |     1.0419849 |
-| score\_time                                |   0.0271136 |   0.0257890 |     0.0424704 |
+| fit\_time                                  |   0.0866537 |   0.0827685 |     0.8593893 |
+| score\_time                                |   0.0208205 |   0.0184096 |     0.0303370 |
 | validation\_r2                             |   0.2160269 |   0.2446704 |     0.2022706 |
 | train\_r2                                  |   0.2452374 |   0.3383638 |     0.8751218 |
 | validation\_neg\_root\_mean\_square\_error | \-5.3488568 | \-5.2467506 |   \-5.3669521 |
@@ -232,8 +290,8 @@ a better `negative RMSE` mean cv scores of -5.25 than its peer models.
 
 | index                                      |  Linear SVM |       Ridge | Random Forest |
 | :----------------------------------------- | ----------: | ----------: | ------------: |
-| fit\_time                                  |   3.4737376 |   4.0535750 |     3.8842770 |
-| score\_time                                |   0.0285088 |   0.0284320 |     0.0488189 |
+| fit\_time                                  |   3.8050409 |   5.8030137 |     7.5937326 |
+| score\_time                                |   0.0262539 |   0.0372037 |     0.0353937 |
 | validation\_r2                             |   0.2441726 |   0.2245500 |     0.1782126 |
 | train\_r2                                  |   0.2572283 |   0.3161027 |     0.4830969 |
 | validation\_neg\_root\_mean\_square\_error | \-5.2457038 | \-5.3154618 |   \-5.4566107 |
