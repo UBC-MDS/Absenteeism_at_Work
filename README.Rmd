@@ -90,6 +90,10 @@ To reset the repo to a clean state, with no intermediate or results files, run t
 ```
 make clean
 ```
+#### Dependency Diagram of the Makefile
+```{r Dependency Diagram of the Makefile, echo = FALSE}
+knitr::include_graphics("Makefile.png")
+```
 
 ## Dependencies
 
