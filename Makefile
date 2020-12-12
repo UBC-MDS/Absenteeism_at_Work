@@ -25,7 +25,7 @@ results/best_coefficients.feather results/non_RFE_CV_results.feather results/RFE
 	python script/machine_learning_model.py --input_xtrain="results/X_train.pickle" --input_ytrain="results/y_train.pickle" --input_xtest="results/X_test.pickle" --input_ytest="results/y_test.pickle" --input_processor="results/processor.pickle" --input_total_features="results/total_features.pickle" --out_dir="results"
 
 # render the report
-doc/absenteeism_predict_report.html doc/absenteeism_predict_report.md : doc/absenteeism_predict_report.Rmd results/best_coefficients.feather results/correlation_matrix.png results/distribution_plot.png results/frequency_plot.png results/non_RFE_CV_results.feather results/RFE_CV_results.feather results/residual_plot.png
+doc/absenteeism_predict_report.html doc/absenteeism_predict_report.md : doc/absenteeism_predict_report.Rmd results/best_coefficients.feather results/correlation_matrix.png results/distribution_plot.png results/frequency_plot.png results/non_RFE_CV_results.feather results/RFE_CV_results.feather results/residual_plot.png doc/absenteeism_refs.bib
 	Rscript -e "rmarkdown::render('doc/absenteeism_predict_report.Rmd', output_format = 'github_document')"
 	
 clean: 
