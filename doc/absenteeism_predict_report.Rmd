@@ -41,7 +41,7 @@ We chose a data set from the UCI Machine Learning Repository called "Absenteeism
 
 ### Analysis tools
 
-We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21).
+We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], arrow[@arrow], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21).
 
 ### Preliminary data Analysis
 

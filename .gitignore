@@ -1,7 +1,8 @@
-*.DS_Store
-*.ipynb_checkpoints
-*.Rproj
-*.Rproj.user/
-*.Rproj.user
-*.Rhistory
+**.DS_Store
+**.ipynb_checkpoints
+**.Rproj
+**.Rproj.user/
+.Rproj.user
+.Rhistory
+Makefile
 runall.sh

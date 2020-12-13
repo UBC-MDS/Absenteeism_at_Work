@@ -127,6 +127,8 @@ knitr::include_graphics("Makefile.png")
   + ggcorrplot==0.1.3
   
   + ggthemes==4.2.0
+  
+  + arrow==2.0.0
 
 * GNU make 4.2.1
 
