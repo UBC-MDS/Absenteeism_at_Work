@@ -41,7 +41,7 @@ We chose a data set from the UCI Machine Learning Repository called "Absenteeism
 
 ### Analysis tools
 
-We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21).
+We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], arrow[@arrow], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21).
 
 ### Preliminary data Analysis
 
@@ -150,6 +150,12 @@ There are limitations and assumptions associated with our prediction task:
 
 ### Future directions
 
-Given the current Machine Learning tools we have learned so far, we were able to answer our predictive question in a basic manner. If we were to have more time to explore deeper, we would 1. research into more advanced machine learning models that particularly deal with collinear and outlier data; 2. find and use a more representative and independent dataset that could better represent the population to perform analysis and prediction on. Perhaps more complex ensemble models like Catboost or even a stacked model could prove to be useful in increasing the predicting capability of the answer. Observing the hyperparameters selected during the optimization, the model seems to have a considerably elevated complexity, hence some sort of regularization,where the models of high complexity are penalized might prove to be useful in this particular task.
+Given the current Machine Learning tools we have learned so far, we were able to answer our predictive question in a basic manner. If we were to have more time to explore deeper, we would:
+
+1. Research into more advanced machine learning models that particularly deal with collinear and outlier data; 
+
+2. Find and use a more representative and independent dataset that could better represent the population to perform analysis and prediction on. 
+
+Perhaps more complex ensemble models like Catboost or even a stacked model could prove to be useful in increasing the predicting capability of the answer. Observing the hyperparameters selected during the optimization, the model seems to have a considerably elevated complexity, hence some sort of regularization,where the models of high complexity are penalized might prove to be useful in this particular task.
 
 # References

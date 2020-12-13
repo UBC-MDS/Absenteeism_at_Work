@@ -38,7 +38,7 @@ We chose a data set from the UCI Machine Learning Repository called "Absenteeism
 
 ### Analysis tools
 
-We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21).
+We used both R[@R] and Python[@Python] programming languages to perform this prediction task. The following R and Python packages were used: tidyverse[@tidyverse], dplyr[@dplyr], knitr[@knitr], ggcorrplot[@ggcorrplot], ggthemes[@ggthemes], arrow[@arrow], docopt R[@docopt], docopt Python[@docoptpython], feather Python[@featherpy], os[@Python], Pandas[@mckinney-proc-scipy-2010], scikit-learn[@sklearn_api], and Seaborn[@seaborn]. The code used to perform the analysis and create this report can be found [here](https://github.com/UBC-MDS/dsci-522_group-21).
 
 ### Preliminary data Analysis
 
@@ -108,8 +108,8 @@ Table: Table 1. Default mean cross validation negative root mean squared error &
 
 |index                                 | Linear SVM|      Ridge| Random Forest|
 |:-------------------------------------|----------:|----------:|-------------:|
-|fit_time                              |  0.0866537|  0.0827685|     0.8593893|
-|score_time                            |  0.0208205|  0.0184096|     0.0303370|
+|fit_time                              |  0.0535844|  0.0417164|     0.7865357|
+|score_time                            |  0.0167459|  0.0123756|     0.0396406|
 |validation_r2                         |  0.2160269|  0.2446704|     0.2022706|
 |train_r2                              |  0.2452374|  0.3383638|     0.8751218|
 |validation_neg_root_mean_square_error | -5.3488568| -5.2467506|    -5.3669521|
@@ -124,8 +124,8 @@ Table: Table 2. Feature selection mean cross validation negative root mean squar
 
 |index                                 | Linear SVM|      Ridge| Random Forest|
 |:-------------------------------------|----------:|----------:|-------------:|
-|fit_time                              |  3.8050409|  5.8030137|     7.5937326|
-|score_time                            |  0.0262539|  0.0372037|     0.0353937|
+|fit_time                              |  3.0498133|  2.9559534|     3.2209655|
+|score_time                            |  0.0261488|  0.0221419|     0.0360632|
 |validation_r2                         |  0.2441726|  0.2245500|     0.1782126|
 |train_r2                              |  0.2572283|  0.3161027|     0.4830969|
 |validation_neg_root_mean_square_error | -5.2457038| -5.3154618|    -5.4566107|
@@ -184,6 +184,12 @@ There are limitations and assumptions associated with our prediction task:
 
 ### Future directions
 
-Given the current Machine Learning tools we have learned so far, we were able to answer our predictive question in a basic manner. If we were to have more time to explore deeper, we would 1. research into more advanced machine learning models that particularly deal with collinear and outlier data; 2. find and use a more representative and independent dataset that could better represent the population to perform analysis and prediction on. Perhaps more complex ensemble models like Catboost or even a stacked model could prove to be useful in increasing the predicting capability of the answer. Observing the hyperparameters selected during the optimization, the model seems to have a considerably elevated complexity, hence some sort of regularization,where the models of high complexity are penalized might prove to be useful in this particular task.
+Given the current Machine Learning tools we have learned so far, we were able to answer our predictive question in a basic manner. If we were to have more time to explore deeper, we would:
+
+1. Research into more advanced machine learning models that particularly deal with collinear and outlier data; 
+
+2. Find and use a more representative and independent dataset that could better represent the population to perform analysis and prediction on. 
+
+Perhaps more complex ensemble models like Catboost or even a stacked model could prove to be useful in increasing the predicting capability of the answer. Observing the hyperparameters selected during the optimization, the model seems to have a considerably elevated complexity, hence some sort of regularization,where the models of high complexity are penalized might prove to be useful in this particular task.
 
 # References
