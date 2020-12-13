@@ -1,7 +1,7 @@
 ---
 title: "Predicting absenteeism hours at work from different features"
 author: MDS DSCI 522 Group 21
-date: "27/11/2020"
+date: "12/12/2020"
 always_allow_html: true
 output: 
   html_document:
@@ -57,7 +57,7 @@ From figure 1, We observed that there are some considerable correlations between
 <p class="caption">Figure 1. Correlation matrix between all features and the target</p>
 </div>
 
-We looked into the distributions (figure 2) of all attributes, including the target `Absenteeism time in hours` and we detected many outliers in the target. Therefore, we removed some extreme outliers. To decide with observations to discard, the removed the instances where the target was greater than its mean plus three times its standard deviation. Getting rid of these extreme instances is required, otherwise, the model will always be underpredicting. Fortunately, these cases represent only 15 of the 737 instances, therefore only a small amount of information is being ignored.
+We looked into the distributions (figure 2) of all attributes, including the target `Absenteeism time in hours` and we detected many outliers in the target (extreme absenteeism times instances, much bigger than the mean absenteeism time of all the observations in the dataset). Therefore, we removed some extreme outliers. To decide with observations to discard, the removed the instances where the target was greater than its mean plus three times its standard deviation. Getting rid of these extreme instances is required, otherwise, the model will always be underpredicting. Fortunately, these cases represent only 15 of the 737 instances, therefore only a small amount of information is being ignored.
 
 -   Although the mean absent hours per month of a worker is around 7 hours, there where the number of absent hours surpasses 60 hours per month, and even reaching a 120-hour mark.
 
@@ -72,7 +72,7 @@ We looked into the distributions (figure 2) of all attributes, including the tar
 <p class="caption">Figure 2. Frequency distributions for all features and the target</p>
 </div>
 
-We examined the distribution for the particular feature `Reason of Absence` (figure 3), which has one of the relatively highest correlation with the target, and observe that justifications `Medical consultation` and `Dental Consultation` are the most common, justifying the absence of 191 out of the 508 observations of the training set portion. In addition, the mean number of occurrences for all `Reasons for absense` is around 20, which is much smaller than the most common occurrences.
+We examined the distribution for the particular feature `Reason of Absence` (figure 3), which has one of the relatively highest correlation with the target, and observe that justifications `Medical consultation` and `Dental Consultation` are the most common, justifying the absence of 191 out of the 508 observations of the training set portion. In addition, the overall **mean** number of occurrences for all `Reasons for absense` is around 20, which is much smaller than the most common occurrences.
 
 <div class="figure">
 <img src="../results/frequency_plot.png" alt="Figure 3. Reasons of Absence feature distribution" width="100%" />
