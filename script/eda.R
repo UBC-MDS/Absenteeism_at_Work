@@ -12,6 +12,7 @@ Options:
 " -> doc
 
 library(feather)
+library(arrow)
 library(tidyverse)
 library(docopt)
 library(ggthemes)
