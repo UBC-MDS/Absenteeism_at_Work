@@ -1,7 +1,19 @@
-Predicting absenteeism hours at work from different features
-================
 MDS DSCI 522 Group 21
 27/11/2020
+=======
+---
+title: "Predicting absenteeism hours at work from different features"
+author: MDS DSCI 522 Group 21
+date: "12/12/2020"
+always_allow_html: true
+output: 
+  html_document:
+    keep_md: yes
+    toc: true
+bibliography: absenteeism_refs.bib
+---
+
+
 
 # Summary
 
@@ -189,13 +201,7 @@ Figure 2. Frequency distributions for all features and the target
 
 </div>
 
-We examined the distribution for the particular feature `Reason of
-Absence` (figure 3), which has one of the relatively highest correlation
-with the target, and observe that justifications `Medical consultation`
-and `Dental Consultation` are the most common, justifying the absence of
-191 out of the 508 observations of the training set portion. In
-addition, the mean number of occurrences for all `Reasons for absense`
-is around 20, which is much smaller than the most common occurrences.
+We examined the distribution for the particular feature `Reason of Absence` (figure 3), which has one of the relatively highest correlation with the target, and observe that justifications `Medical consultation` and `Dental Consultation` are the most common, justifying the absence of 191 out of the 508 observations of the training set portion. In addition, the overall **mean** number of occurrences for all `Reasons for absense` is around 20, which is much smaller than the most common occurrences.
 
 <div class="figure">
 
