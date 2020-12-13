@@ -150,6 +150,12 @@ There are limitations and assumptions associated with our prediction task:
 
 ### Future directions
 
-Given the current Machine Learning tools we have learned so far, we were able to answer our predictive question in a basic manner. If we were to have more time to explore deeper, we would 1. research into more advanced machine learning models that particularly deal with collinear and outlier data; 2. find and use a more representative and independent dataset that could better represent the population to perform analysis and prediction on. Perhaps more complex ensemble models like Catboost or even a stacked model could prove to be useful in increasing the predicting capability of the answer. Observing the hyperparameters selected during the optimization, the model seems to have a considerably elevated complexity, hence some sort of regularization,where the models of high complexity are penalized might prove to be useful in this particular task.
+Given the current Machine Learning tools we have learned so far, we were able to answer our predictive question in a basic manner. If we were to have more time to explore deeper, we would:
+
+1. Research into more advanced machine learning models that particularly deal with collinear and outlier data; 
+
+2. Find and use a more representative and independent dataset that could better represent the population to perform analysis and prediction on. 
+
+Perhaps more complex ensemble models like Catboost or even a stacked model could prove to be useful in increasing the predicting capability of the answer. Observing the hyperparameters selected during the optimization, the model seems to have a considerably elevated complexity, hence some sort of regularization,where the models of high complexity are penalized might prove to be useful in this particular task.
 
 # References
