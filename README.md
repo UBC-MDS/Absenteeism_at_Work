@@ -1,7 +1,7 @@
 
 # Absenteeism Hours Predictor
 
--   Author: MDS DSCI 522 Group 21
+-   Author: Angel Santiago Rugeles Schoonewolff, Yiki Su, Guanshu Tao, Yuting (Rachel) Xu
 
 ## About
 
